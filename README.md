@@ -75,4 +75,8 @@ Use [GitHub Issues](https://github.com/ErikThiart/simcloud-woocommerce/issues) f
 
 ## License
 
-Copyright (C) 2026 Erik Thiart and contributors. Project material is licensed under the GNU General Public License, version 2 or, at your option, any later version, unless a file states otherwise. See [LICENSE](LICENSE). WordPress and WooCommerce are the names of their respective projects; this project does not claim endorsement by either.
+Copyright (C) 2026 Erik Thiart and contributors. SPDX license identifier: `GPL-2.0-or-later`.
+
+This project is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. Project material uses these terms unless a file states otherwise. The project is distributed without any warranty; see [LICENSE](LICENSE) for the complete license text.
+
+WordPress and WooCommerce are the names of their respective projects; this project does not claim endorsement by either.
