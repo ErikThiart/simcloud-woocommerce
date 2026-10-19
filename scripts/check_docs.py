@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = (
     "README.md", "LICENSE", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "SECURITY.md", "SUPPORT.md",
     "CHANGELOG.md", "docs/README.md", "docs/installation.md",
-    "docs/data-product-import.md", "docs/product-setup.md", "docs/screenshots.md", "docs/troubleshooting.md",
+    "docs/quick-start.md", "assets/images/NOTICE.md", "docs/data-product-import.md", "docs/product-setup.md", "docs/screenshots.md", "docs/troubleshooting.md",
     "docs/faq.md", "docs/repository-guide.md", "docs/images/README.md",
     "docs/product-specification.md", "docs/architecture.md",
     "docs/api-contract.md", "docs/order-lifecycle.md", "docs/merchant-guide.md",

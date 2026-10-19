@@ -5,7 +5,7 @@ Requires at least: 6.8.3
 Tested up to: 7.1.3
 Requires PHP: 8.2
 Requires Plugins: woocommerce
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ SIMcloud for WooCommerce connects eligible paid WooCommerce orders to the SIMclo
 
 The plugin validates networks, bundles, voucher denominations and meter support, then submits eligible purchases in background jobs. A dedicated fulfilment record protects against repeated payment hooks and concurrent workers. Order completion waits for provider-confirmed delivery. Voucher codes and electricity tokens appear in authorized order details; they are not added to public logs or email bodies.
 
-Version 0.2.0 is a prerelease. Provider transport is covered by deterministic mocks; see the repository test evidence for the exact WordPress, WooCommerce, PHP and database combinations. Merchants must complete controlled live acceptance with their own account before production sales. No SIMcloud sandbox is claimed.
+Version 0.3.0 is a prerelease. Provider transport is covered by deterministic mocks; see the repository test evidence for the exact WordPress, WooCommerce, PHP and database combinations. Merchants must complete controlled live acceptance with their own account before production sales. No SIMcloud sandbox is claimed.
 
 Supported scope: ZAR, virtual simple prepaid products, quantity one per recipient line, classic checkout, Checkout Blocks and HPOS. Mixed prepaid/other baskets, subscriptions, variable products, bulk orders, automatic refunds and automatic retry of ambiguous submissions are excluded.
 
@@ -36,8 +36,8 @@ Before enabling sales, review the current SIMcloud account terms and privacy inf
 1. Install WooCommerce 10.0.4 or newer on WordPress 6.8.3 or newer with PHP 8.2 or newer and HTTPS.
 2. Upload the tagged release ZIP through Plugins > Add New > Upload Plugin and activate it on the individual site.
 3. Open WooCommerce > SIMcloud. Save the token from your SIMcloud account's API > Get Token screen.
-4. Check the connection, then click Refresh catalogues / import data. Missing data bundles are published automatically using the API amount as the regular retail price. Existing products and prices are preserved.
-5. Review imported data products and configure the other services as virtual simple products. Retail prices remain editable independently of provider amounts. Configure automatic payment gateway IDs.
+4. Enter your token and click Connect & set up products. This saves settings, checks the connection and imports data bundles and VAS denominations with local default logos. New products are published at the API amount; merchant prices and custom images are preserved.
+5. Review imported data/VAS products and configure airtime/electricity as virtual simple products. Retail prices remain editable independently of provider amounts. Configure automatic payment gateway IDs.
 6. Review cron, privacy, payment/refund policies and controlled acceptance tests, then explicitly enable live submissions.
 
 Use SIMCLOUD_WC_DISABLE_SUBMISSIONS in wp-config.php to pause fulfilment. Non-production WordPress environments are blocked. Copies/restores must be paused and reconciled before jobs resume.
@@ -46,7 +46,11 @@ Use SIMCLOUD_WC_DISABLE_SUBMISSIONS in wp-config.php to pause fulfilment. Non-pr
 
 = Can the API populate data products automatically? =
 
-Yes. In WooCommerce > SIMcloud, click Refresh catalogues / import data. Available unambiguous bundles are created as published simple virtual products with their network, provider ID and amount configured. The API amount becomes the initial regular retail price; existing products, prices, drafts and trash are preserved. No prepaid purchase is made by import.
+Yes. In WooCommerce > SIMcloud, click Connect & set up products or Refresh catalogues / import products. Available unambiguous data bundles and VAS denominations are created as published simple virtual products with provider details and default logos. The API amount becomes the initial regular retail price; existing prices, custom images, drafts and trash are preserved. No prepaid purchase is made by import.
+
+= Are the logos included in the plugin? =
+
+Yes. Four network logos and 19 VAS logos ship with the ZIP. Setup copies the appropriate default into the local Media Library, with one shared attachment per brand. Custom product images are preserved. Unknown future brands require an updated asset package or a merchant-provided image.
 
 = Can I use my existing payment gateway? =
 
@@ -69,6 +73,10 @@ No. Customer payments and prepaid delivery are separate. Reconcile provider stat
 Saved plugin credentials, settings, catalogue cache and plugin jobs are removed. WooCommerce orders, purchase snapshots and fulfilment evidence are retained. A server-configured token constant must be removed separately.
 
 == Changelog ==
+
+= 0.3.0 =
+
+One-click account connection and data/VAS product setup. Bundle 23 original SIMcloud network/VAS logos and copy them into the Media Library as default featured images. Reuse brand attachments, fill empty existing images and preserve merchant customizations.
 
 = 0.2.0 =
 

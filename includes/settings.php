@@ -1,6 +1,11 @@
 <?php
 defined('ABSPATH') || exit;
 
+add_filter('plugin_action_links_' . plugin_basename(SIMCLOUD_WC_FILE), function ($links) {
+    array_unshift($links, '<a href="' . esc_url(admin_url('admin.php?page=simcloud-wc')) . '">' . esc_html__('Set up SIMcloud', 'simcloud-woocommerce') . '</a>');
+    return $links;
+});
+
 add_action('admin_menu', function () {
     add_submenu_page('woocommerce', 'SIMcloud', 'SIMcloud', 'manage_woocommerce', 'simcloud-wc', 'simcloud_wc_settings_page');
 });
@@ -28,6 +33,7 @@ function simcloud_wc_settings_page() {
         echo '<div class="notice notice-info"><p>' . esc_html($notice) . '</p></div>';
         delete_transient('simcloud_wc_notice_' . get_current_user_id());
     }
+    echo '<p>' . esc_html__('Quick start: enter your API token, then click Connect & set up products. This checks your account and loads data bundles, VAS denominations and bundled logos. Configure payments and deliberately enable live submissions when ready to sell.', 'simcloud-woocommerce') . '</p>';
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '"><input type="hidden" name="action" value="simcloud_wc_settings">';
     wp_nonce_field('simcloud_wc_settings');
     echo '<table class="form-table"><tr><th><label for="simcloud-token">' . esc_html__('Replace API token', 'simcloud-woocommerce') . '</label></th><td>';
@@ -40,9 +46,10 @@ function simcloud_wc_settings_page() {
     echo '</td></tr><tr><th><label for="simcloud-gateways">' . esc_html__('Automatic payment gateways', 'simcloud-woocommerce') . '</label></th><td><input id="simcloud-gateways" class="regular-text" name="gateways" value="' . esc_attr(get_option('simcloud_wc_gateways', '')) . '"><p>' . esc_html__('Comma-separated gateway IDs. Only payment_complete from these gateways can authorize automatic fulfilment. COD, BACS and cheque are excluded. Use the order action to confirm funds manually.', 'simcloud-woocommerce') . '</p>';
     $ids = array_keys(WC()->payment_gateways()->payment_gateways());
     echo '<p>' . esc_html__('Installed IDs: ', 'simcloud-woocommerce') . esc_html(implode(', ', $ids)) . '</p></td></tr><tr><th>' . esc_html__('Live submissions', 'simcloud-woocommerce') . '</th><td><label><input type="checkbox" name="enabled" value="1" ' . checked(get_option('simcloud_wc_enabled'), 'yes', false) . '> ' . esc_html__('Enable this site to spend my SIMcloud wallet after confirmed payment.', 'simcloud-woocommerce') . '</label><p>' . esc_html__('Saving this choice binds fulfilment to the current site URL. Staging/development environments and SIMCLOUD_WC_DISABLE_SUBMISSIONS block submissions. Pause before backups, restores or cloning.', 'simcloud-woocommerce') . '</p></td></tr></table>';
-    echo '<button class="button button-primary" name="operation" value="save">' . esc_html__('Save settings', 'simcloud-woocommerce') . '</button>';
-    echo ' <button class="button" name="operation" value="balance">' . esc_html__('Check connection / balance', 'simcloud-woocommerce') . '</button> <button class="button" name="operation" value="catalogue">' . esc_html__('Refresh catalogues / import data', 'simcloud-woocommerce') . '</button></form>';
-    echo '<p>' . esc_html__('Refreshing imports missing data bundles as published WooCommerce products using the API amount as the regular retail price. Existing products, including their prices, drafts and trash, are preserved. VAS catalogue refresh does not create products.', 'simcloud-woocommerce') . '</p>';
+    echo '<button class="button button-primary" name="operation" value="setup">' . esc_html__('Connect & set up products', 'simcloud-woocommerce') . '</button> ';
+    echo '<button class="button" name="operation" value="save">' . esc_html__('Save settings', 'simcloud-woocommerce') . '</button>';
+    echo ' <button class="button" name="operation" value="balance">' . esc_html__('Check connection / balance', 'simcloud-woocommerce') . '</button> <button class="button" name="operation" value="catalogue">' . esc_html__('Refresh catalogues / import products', 'simcloud-woocommerce') . '</button></form>';
+    echo '<p>' . esc_html__('Setup imports missing data bundles and one VAS product per available denomination, published at the API amount. Bundled logos fill empty product images. Existing prices, custom images, drafts and trash are preserved.', 'simcloud-woocommerce') . '</p>';
     $balance = get_option('simcloud_wc_balance', []);
     if (is_array($balance) && isset($balance['amount'], $balance['checked'])) {
         /* translators: 1: ZAR amount, 2: UTC timestamp. */
@@ -69,53 +76,88 @@ function simcloud_wc_settings_page() {
     echo '<p><a href="' . esc_url('https://github.com/ErikThiart/simcloud-woocommerce/blob/main/docs/merchant-guide.md') . '">' . esc_html__('Merchant documentation', 'simcloud-woocommerce') . '</a></p></div>';
 }
 
+function simcloud_wc_save_settings($input) {
+    if (!current_user_can('manage_woocommerce')) {
+        return new WP_Error('simcloud_settings_permission', __('You cannot manage SIMcloud.', 'simcloud-woocommerce'));
+    }
+    if (!defined('SIMCLOUD_WC_API_TOKEN')) {
+        $token = isset($input['token']) && is_scalar($input['token']) ? trim(wp_unslash($input['token'])) : '';
+        if ($token !== '' && preg_match('/[\x00-\x20\x7f]/', $token)) {
+            return new WP_Error('simcloud_token_format', __('The API token contains invalid whitespace or control characters. Settings were not saved.', 'simcloud-woocommerce'));
+        }
+        if (!empty($input['remove_token'])) {
+            delete_option('simcloud_wc_token');
+        } elseif ($token !== '') {
+            update_option('simcloud_wc_token', $token, false);
+            delete_option('simcloud_wc_auth_error');
+        }
+    }
+    $raw = isset($input['gateways']) && is_scalar($input['gateways']) ? wp_unslash($input['gateways']) : '';
+    $gateways = array_diff(array_filter(array_map('sanitize_key', explode(',', $raw))), ['cod', 'bacs', 'cheque']);
+    update_option('simcloud_wc_gateways', implode(',', $gateways), false);
+    update_option('simcloud_wc_enabled', !empty($input['enabled']) ? 'yes' : 'no', false);
+    if (!empty($input['enabled'])) {
+        update_option('simcloud_wc_bound_site', hash('sha256', home_url('/')), false);
+    }
+    return true;
+}
+
+function simcloud_wc_check_connection() {
+    $response = simcloud_wc_api('balance');
+    if (is_wp_error($response)) {
+        return $response;
+    }
+    if (($response['body']['status'] ?? '') !== 'success' || simcloud_wc_cents($response['body']['balance'] ?? '') === null) {
+        return new WP_Error('simcloud_balance', __('Balance response was invalid.', 'simcloud-woocommerce'));
+    }
+    update_option('simcloud_wc_balance', ['amount' => simcloud_wc_decimal(simcloud_wc_cents($response['body']['balance'])), 'checked' => time()], false);
+    delete_option('simcloud_wc_auth_error');
+    return true;
+}
+
+function simcloud_wc_refresh_products() {
+    if (!current_user_can('manage_woocommerce') || !current_user_can('edit_products') || !current_user_can('upload_files')) {
+        return new WP_Error('simcloud_setup_permission', __('Product setup requires WooCommerce management, product editing and media upload permissions.', 'simcloud-woocommerce'));
+    }
+    if (get_woocommerce_currency() !== 'ZAR') {
+        return new WP_Error('simcloud_setup_currency', __('Set the WooCommerce store currency to ZAR before loading products.', 'simcloud-woocommerce'));
+    }
+    $messages = [];
+    foreach (['data', 'vas'] as $service) {
+        $catalogue = simcloud_wc_catalogue($service, true);
+        $import = is_wp_error($catalogue) ? $catalogue : simcloud_wc_import_products($service, $catalogue);
+        /* translators: 1: service, 2: published, 3: existing, 4: skipped, 5: failed, 6: logos added, 7: logo warnings. */
+        $messages[] = is_wp_error($import) ? strtoupper($service) . ': ' . $import->get_error_message()
+            : sprintf(__('%1$s — published: %2$d; existing: %3$d; skipped: %4$d; save failures: %5$d; logos added: %6$d; logo warnings: %7$d.', 'simcloud-woocommerce'),
+                strtoupper($service), $import['created'], $import['existing'], $import['skipped'], $import['failed'], $import['images_added'], $import['image_warnings']);
+    }
+    return implode(' ', $messages);
+}
+
+function simcloud_wc_connect_and_setup() {
+    if (!current_user_can('manage_woocommerce') || !current_user_can('edit_products') || !current_user_can('upload_files')) {
+        return new WP_Error('simcloud_setup_permission', __('You cannot set up SIMcloud products.', 'simcloud-woocommerce'));
+    }
+    $connection = simcloud_wc_check_connection();
+    return is_wp_error($connection) ? $connection : simcloud_wc_refresh_products();
+}
+
 add_action('admin_post_simcloud_wc_settings', function () {
     simcloud_wc_admin_guard('simcloud_wc_settings');
     $operation = isset($_POST['operation']) && is_scalar($_POST['operation']) ? sanitize_key(wp_unslash($_POST['operation'])) : '';
-    $message = __('Unknown operation.', 'simcloud-woocommerce');
-    if ($operation === 'save') {
-        if (!defined('SIMCLOUD_WC_API_TOKEN')) {
-            $token = isset($_POST['token']) && is_scalar($_POST['token']) ? trim(wp_unslash($_POST['token'])) : '';
-            if (!empty($_POST['remove_token'])) {
-                delete_option('simcloud_wc_token');
-            } elseif ($token !== '' && !preg_match('/[\x00-\x20\x7f]/', $token)) {
-                update_option('simcloud_wc_token', $token, false);
-                delete_option('simcloud_wc_auth_error');
-            }
-        }
-        $raw = isset($_POST['gateways']) && is_scalar($_POST['gateways']) ? wp_unslash($_POST['gateways']) : '';
-        $gateways = array_filter(array_map('sanitize_key', explode(',', $raw)));
-        $gateways = array_diff($gateways, ['cod', 'bacs', 'cheque']);
-        update_option('simcloud_wc_gateways', implode(',', $gateways), false);
-        update_option('simcloud_wc_enabled', !empty($_POST['enabled']) ? 'yes' : 'no', false);
-        if (!empty($_POST['enabled'])) {
-            update_option('simcloud_wc_bound_site', hash('sha256', home_url('/')), false);
-        }
-        $message = __('Settings saved. Run the connection check before taking orders.', 'simcloud-woocommerce');
+    $result = __('Unknown operation.', 'simcloud-woocommerce');
+    if (in_array($operation, ['save', 'setup'], true)) {
+        $saved = simcloud_wc_save_settings($_POST);
+        $result = is_wp_error($saved) ? $saved : ($operation === 'setup' ? simcloud_wc_connect_and_setup() : __('Settings saved. Run the connection check before taking orders.', 'simcloud-woocommerce'));
     } elseif ($operation === 'balance') {
-        $response = simcloud_wc_api('balance');
-        if (!is_wp_error($response) && ($response['body']['status'] ?? '') === 'success' && simcloud_wc_cents($response['body']['balance'] ?? '') !== null) {
-            update_option('simcloud_wc_balance', ['amount' => simcloud_wc_decimal(simcloud_wc_cents($response['body']['balance'])), 'checked' => time()], false);
-            delete_option('simcloud_wc_auth_error');
-            $message = __('Connection verified. No purchase was submitted.', 'simcloud-woocommerce');
-        } else {
-            $message = is_wp_error($response) ? $response->get_error_message() : __('Balance response was invalid.', 'simcloud-woocommerce');
+        $result = simcloud_wc_check_connection();
+        if ($result === true) {
+            $result = __('Connection verified. No purchase was submitted.', 'simcloud-woocommerce');
         }
     } elseif ($operation === 'catalogue') {
-        $data = simcloud_wc_catalogue('data', true);
-        $vas = simcloud_wc_catalogue('vas', true);
-        if (is_wp_error($data)) {
-            $message = __('Data catalogue could not be refreshed. No data products were imported. Check authentication and try again.', 'simcloud-woocommerce');
-        } else {
-            $import = simcloud_wc_import_data_products($data);
-            /* translators: 1: created products, 2: existing products, 3: invalid or ambiguous rows, 4: failed saves. */
-            $message = is_wp_error($import) ? $import->get_error_message() : sprintf(__('Data import — published: %1$d; existing products preserved: %2$d; unavailable/ambiguous rows skipped: %3$d; save failures: %4$d. New products use the API amount as the regular retail price.', 'simcloud-woocommerce'), $import['created'], $import['existing'], $import['skipped'], $import['failed']);
-        }
-        if (is_wp_error($vas)) {
-            $message .= ' ' . __('VAS catalogue could not be refreshed.', 'simcloud-woocommerce');
-        }
+        $result = simcloud_wc_refresh_products();
     }
-    set_transient('simcloud_wc_notice_' . get_current_user_id(), $message, 60);
+    set_transient('simcloud_wc_notice_' . get_current_user_id(), is_wp_error($result) ? $result->get_error_message() : $result, 60);
     wp_safe_redirect(admin_url('admin.php?page=simcloud-wc'));
     exit;
 });

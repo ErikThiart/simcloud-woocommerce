@@ -2,6 +2,18 @@
 
 Review date: 19 October 2026. This file records evidence without claiming unperformed provider tests.
 
+## Version 0.3.0 — one-click setup and local default logos
+
+The suites passed **29 quick-setup/media assertions**, **22 data-import assertions** and the existing **76 fulfilment assertions**, plus concurrency/lifecycle checks against both the source and installed v0.3.0 ZIP, on PHP 8.4.17 / WordPress 7.1.3 / WooCommerce 11.2.1 / MariaDB 13.0.2. The quick-setup suite covers VAS denominations, shared brand attachments, custom-image preservation, exact aliases, unknown URL rejection, upload/metadata failures, permissions, invalid tokens, connection failures, both catalogue imports and zero paid POST requests. The [CI matrix](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml) runs source and installed-ZIP suites on PHP 8.2/8.4/8.5.
+
+Security-category WordPress Plugin Check on the installed v0.3.0 runtime returned **zero errors and 18 warnings** for deliberate uncached ledger/import-lock queries. This is not an independent audit.
+
+All **23 original logo JPEGs** were downloaded successfully from public SIMcloud image URLs; [the manifest](../assets/images/sources.json) records byte counts, sources and SHA-256 checksums. Packaging verifies this complete asset set. This confirms public image retrieval, not authenticated provider catalogue access or supplier acceptance.
+
+A fresh local WordPress installation used the packaged v0.3.0 plugin. Entering the synthetic token and clicking **Connect & set up products** created **four data products and six VAS products**, all with default logos, using **seven shared attachments**. A repeat setup added zero products and zero images. All ten storefront images loaded from local uploads, and the tested 390-pixel viewport had no horizontal overflow. Live submissions remained unchecked. A settings POST without the nonce was rejected with HTTP 403. [Quick-start screenshots](quick-start.md) record the workflow.
+
+The catalogues and wallet responses in these tests were intercepted fixtures. No authenticated live catalogue or paid supplier acceptance is claimed.
+
 ## Version 0.2.0 — automatic data-product import
 
 The real-database data-import suite passed **22 assertions**, alongside the **76-assertion** fulfilment suite, concurrency and lifecycle checks, against both source and the installed v0.2.0 ZIP on PHP 8.4.17 / WordPress 7.1.3 / WooCommerce 11.2.1 / MariaDB 13.0.2.

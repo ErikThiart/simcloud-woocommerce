@@ -21,4 +21,8 @@ Account-scoped durable idempotency, payload matching and reference lookup across
 
 ## Data-product import — v0.2.0
 
-Implemented automatic publication of missing data bundles from the API product list, using the API amount as the initial regular retail price. Repeat imports preserve merchant edits and prices. Scheduled mirroring/repricing and VAS product import are outside this change.
+Implemented automatic publication of missing data bundles from the API product list, using the API amount as the initial regular retail price. Repeat imports preserve merchant edits and prices. Scheduled mirroring/repricing was outside that release.
+
+## One-click setup and default logos — v0.3.0
+
+Implemented token saving, balance verification and data/VAS product import through one setup button. The ZIP bundles four mobile and 19 VAS logos, with shared local Media Library attachments and preserved merchant images/prices. Wallet spending and payment configuration remain deliberate merchant choices.

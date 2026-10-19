@@ -2,9 +2,9 @@
 
 ## Current project status
 
-Version 0.2.0 is an installable prerelease for airtime, data, VAS and electricity, with automatic data-bundle product import. See [verification](docs/verification.md) for tested combinations and limits, and the [roadmap](docs/roadmap.md) for further work.
+Version 0.3.0 is an installable prerelease for airtime, data, VAS and electricity, with one-click data/VAS product setup and bundled logos. See [verification](docs/verification.md) for tested combinations and limits, and the [roadmap](docs/roadmap.md) for further work.
 
-Start with [illustrated installation](docs/installation.md), [product setup](docs/product-setup.md), [troubleshooting](docs/troubleshooting.md) and the [FAQ](docs/faq.md). Browse the [documentation index](docs/README.md) for operations and developer guides.
+Start with [one-click quick setup](docs/quick-start.md), [illustrated installation](docs/installation.md), [product setup](docs/product-setup.md), [troubleshooting](docs/troubleshooting.md) and the [FAQ](docs/faq.md). Browse the [documentation index](docs/README.md) for operations and developer guides.
 
 ## Plugin questions and contributions
 

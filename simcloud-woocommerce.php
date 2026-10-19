@@ -3,7 +3,7 @@
  * Plugin Name: SIMcloud for WooCommerce
  * Plugin URI: https://github.com/ErikThiart/simcloud-woocommerce
  * Description: Sell South African airtime, data, VAS vouchers and prepaid electricity through SIMcloud.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Requires at least: 6.8.3
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -15,7 +15,7 @@
  */
 
 defined('ABSPATH') || exit;
-define('SIMCLOUD_WC_VERSION', '0.2.0');
+define('SIMCLOUD_WC_VERSION', '0.3.0');
 define('SIMCLOUD_WC_FILE', __FILE__);
 define('SIMCLOUD_WC_DIR', __DIR__ . '/');
 
@@ -37,7 +37,7 @@ add_action('plugins_loaded', function () {
         });
         return;
     }
-    foreach (['api', 'products', 'cart', 'fulfilment', 'orders', 'settings', 'privacy'] as $module) {
+    foreach (['api', 'images', 'products', 'cart', 'fulfilment', 'orders', 'settings', 'privacy'] as $module) {
         require_once SIMCLOUD_WC_DIR . 'includes/' . $module . '.php';
     }
     if (get_option('simcloud_wc_schema') !== '1') {

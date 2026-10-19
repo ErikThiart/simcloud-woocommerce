@@ -1,55 +1,45 @@
-# Automatically populate WooCommerce data-bundle products
+# Automatically import WooCommerce data bundles and VAS vouchers
 
-From **v0.2.0 (prerelease)**, the plugin uses SIMcloud's **product-list API** to create your WooCommerce data-bundle products automatically. You do not need to enter each bundle manually.
+Version **0.3.0 (prerelease)** uses SIMcloud's catalogue APIs to populate products with default brand logos. New stores should follow [one-click quick setup](quick-start.md). Existing stores can click **WooCommerce → SIMcloud → Refresh catalogues / import products**.
 
-## Import the current data bundles
+## What gets created?
 
-1. Install [v0.2.0](https://github.com/ErikThiart/simcloud-woocommerce/releases/tag/v0.2.0), use a **ZAR** store and save your own SIMcloud API token.
-2. Open **WooCommerce → SIMcloud** as a user with WooCommerce management and product-editing permissions.
-3. Click **Refresh catalogues / import data**. The plugin fetches the current data catalogue and refreshes VAS catalogue choices.
-4. Read the result: how many products were published, already existed, were skipped or failed to save.
-5. Open **Products → All Products** to review the newly published data bundles.
+| Field | Data bundle | VAS voucher |
+| --- | --- | --- |
+| Product | One per available unambiguous data product ID | One per product ID and available denomination |
+| Name | Network and API description | Voucher type and denomination |
+| Description | API description and product group | API voucher type |
+| Type | Simple, virtual, non-downloadable | Simple, virtual, non-downloadable |
+| State | Published | Published |
+| Initial regular retail price | Exact API amount, in ZAR | Exact API denomination, in ZAR |
+| Provider configuration | Data, network, amount and product ID | VAS, amount and product ID |
+| Initial SKU | `simcloud-data-{id}` | `simcloud-vas-{id}-{amount-in-cents}` |
+| Default image | Bundled mobile-network logo | Matching bundled VAS brand logo |
 
-![WooCommerce SIMcloud settings showing the automatic data-product import result](images/data-import/import-result.png)
+The API calls are `GET /api/data.php?products=1` and `GET /api/vas.php`. Quick setup also performs a balance GET. Import does not create a prepaid purchase or reserve wallet funds.
 
-The import uses `GET /api/data.php?products=1`. It does not submit a recharge or spend wallet funds. You can import products while live submissions are disabled. Customers can purchase them only after the normal connection, payment and live-submission requirements are met.
+The provider amount and retail price remain separate fields, even when initially equal. Merchant retail changes, coupons and WooCommerce tax settings do not change the provider denomination. Review pricing and tax configuration before live sales.
 
-## What is populated automatically?
+## Repeat imports preserve merchant work
 
-| WooCommerce field | Source / behaviour |
-| --- | --- |
-| Product name | Network label and API bundle description |
-| Description | API bundle description |
-| Short description | API product group (`groupname`) |
-| Product type | Simple, virtual, non-downloadable |
-| Publication state | Published |
-| Regular retail price | Exact API `amount`, in ZAR, with no plugin markup |
-| SIMcloud service | Data |
-| Mobile network | Normalized API network |
-| Provider amount | Exact API `amount` |
-| Catalogue product | API `product_id` |
-| Initial SKU | `simcloud-data-` followed by the API product ID |
+The importer recognizes previous imports and manually configured products with the same provider identity. For VAS, the amount is part of that identity. Existing prices, names, descriptions, SKUs and publication states are preserved. Drafts remain drafts; trashed products are not restored. Original import markers prevent recreation after a merchant removes the prepaid mapping.
 
-![WooCommerce product list containing automatically published demonstration data bundles and their prices](images/data-import/imported-products.png)
+Existing custom images are preserved. A matching product with no image receives its bundled default; one Media Library attachment is reused per brand. Imported images remain ordinary WordPress media after plugin updates or removal, so product imagery does not depend on an installed plugin URL.
 
-The retail price and provider amount are separate fields even when initially equal. Merchants can change their WooCommerce selling price afterwards. Coupons and taxes follow the store's WooCommerce configuration; they do not change the provider denomination. Review tax settings and commercial terms for your store.
+A refresh creates missing products and fills empty images. It does not schedule a catalogue mirror or automatically reprice, unpublish or delete existing products when the API changes. Checkout/submission still validate current availability; paid orders continue to use their saved snapshots.
 
-![An automatically imported data product with network, provider amount, catalogue ID and matching initial retail price](images/data-import/imported-product-settings.png)
+## Skips, failures and image warnings
 
-## What happens when I refresh again?
+The data-order API selects by **network plus amount**, so indistinguishable catalogue entries are skipped. Duplicate IDs, unsupported networks, invalid amounts, missing descriptions and unavailable VAS denominations are also skipped. Repeated denominations within one VAS product are deduplicated.
 
-Existing products are preserved. The importer recognizes both previously imported products and manually configured data products with the same provider product ID. It does not overwrite names, descriptions, SKUs, regular/sale prices, service configuration or publication state. Drafts stay drafts; trashed products are not restored. An import marker also prevents recreating an imported product after its prepaid configuration is removed.
+Concurrent imports are rejected while the database lock is held. Save failures are counted and logged under **WooCommerce → Status → Logs → `simcloud-woocommerce`**, including provider IDs and controlled error codes. A conflicting SKU does not authorize overwriting another product. Resolve the cause and refresh again.
 
-A refresh creates missing products; it is not a scheduled catalogue mirror. It does not reprice, unpublish or delete existing products when the API changes. Review changed bundles in the catalogue and update their settings deliberately. Existing paid orders continue to use their saved purchase snapshots, and checkout/submission still validate the selected bundle against the current API catalogue.
+Image warnings identify unknown brands or Media Library write/processing failures. The plugin uses only its bundled files, selected by exact network/brand mappings or a matching known SIMcloud `logo_url` filename. It does not fetch arbitrary image URLs. Existing products remain intact if an image cannot be added; repair the upload issue or set a suitable custom product image.
 
-## Skipped products and failures
+An empty or failed catalogue read never deletes products. Both services report their own results, so a failed catalogue is visible even when the other service succeeds.
 
-The current data-order API selects bundles by **network plus amount**, rather than product ID. If multiple catalogue products share that combination, the importer skips them instead of publishing indistinguishable offers. Duplicate IDs, invalid amounts, unsupported networks and missing descriptions are also skipped.
+## Screenshots and asset sources
 
-A concurrent refresh is rejected while another import holds the database lock. Product-save failures are counted in the result and logged under **WooCommerce → Status → Logs → `simcloud-woocommerce`** with the provider product ID. Resolve the cause, then refresh again; successfully imported products are retained and not duplicated. A conflicting existing SKU is a save failure, not permission to overwrite an unrelated product.
+See [one-click setup screenshots](quick-start.md), [asset provenance](../assets/images/NOTICE.md), [source URLs and checksums](../assets/images/sources.json), and the [four-service product guide](product-setup.md).
 
-An empty catalogue never removes products. A failed API read imports nothing. VAS refresh still populates catalogue choices only; airtime, VAS and electricity products retain their [existing setup flow](product-setup.md).
-
-**Screenshot context:** actual v0.2.0 WordPress/WooCommerce screens with intercepted API transport and synthetic catalogue items, captured 19 October 2026. Names and prices illustrate the import; they are not current provider offers. No live prepaid purchase was made.
-
-[← Installation](installation.md) · [Product setup](product-setup.md) · [Troubleshooting](troubleshooting.md) · [Documentation index](README.md)
+[← Documentation index](README.md) · [Installation](installation.md) · [Troubleshooting](troubleshooting.md)

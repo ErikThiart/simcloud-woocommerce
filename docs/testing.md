@@ -4,7 +4,7 @@ Tests run in actual WordPress and WooCommerce against MySQL/MariaDB. Only SIMclo
 
 ## Isolated installation
 
-Requirements: PHP 8.2+ with mysqli, curl, mbstring, XML and ZIP, Python 3.10+, curl, and a local MySQL/MariaDB server with a user allowed to create a dedicated database. The setup downloads official WordPress, WooCommerce and WP-CLI packages. Never point these scripts at a production database.
+Requirements: PHP 8.2+ with mysqli, curl, mbstring, XML and ZIP, GD or Imagick for image processing, Python 3.10+, curl, and a local MySQL/MariaDB server with a user allowed to create a dedicated database. The setup downloads official WordPress, WooCommerce and WP-CLI packages. Never point these scripts at a production database.
 
 ```sh
 export WP_TEST_ROOT=/tmp/simcloud-wc-tests
@@ -22,13 +22,15 @@ The database name must begin with `simcloud_wc_test`; a separate `SIMCLOUD_WC_TE
 
 ## Automated checks
 
-`test.sh` lints runtime/test PHP, executes the data-import and integration assertions, launches two separate PHP/WordPress processes against one purchase to verify an atomic claim, verifies interrupted-attempt recovery and deactivation/reactivation/uninstall, then checks documentation links.
+`test.sh` lints runtime/test PHP, executes the data-import, quick-setup/media and integration assertions, launches two separate PHP/WordPress processes against one purchase to verify an atomic claim, verifies interrupted-attempt recovery and deactivation/reactivation/uninstall, then checks documentation links.
 
 The data-import suite exercises real product creation, API-priced publication, manual/imported-product matching, repeat imports, merchant edits, trash, removed mappings, malformed/ambiguous catalogues, permissions, currency, a lock held by a second database connection, save failures and zero purchase requests.
 
 The integration suite covers all four service contracts, exact cents, denomination validation, network/meter checks, confirmed payment, duplicate hooks/jobs, immutable amounts, final delivery, VAS/electricity code retention, guest authorization, timeouts, invalid acknowledgements, duplicate conflicts, mismatched responses, provider failure, unavailable status, authentication pause, copied-site binding, classic checkout, and actual Checkout Blocks Store API add-item/checkout routes.
 
 Warnings/deprecations from exercised plugin paths become test failures under `E_ALL`. A mock is not evidence of live provider acceptance. Concurrent claim tests use the real database rather than a sequential in-memory imitation.
+
+The quick-setup suite covers VAS denomination deduplication, shared brand attachments, exact logo aliases, preserved custom images/prices, unknown URL rejection, upload/metadata failures, media permissions, invalid-token handling, connection failures, both catalogue imports, repeat setup and zero purchase requests. `scripts/check_assets.py` verifies all 23 bundled originals against their SHA-256 manifest before packaging.
 
 ## CI matrix
 

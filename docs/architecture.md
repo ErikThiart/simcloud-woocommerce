@@ -1,6 +1,6 @@
 # Architecture
 
-Version 0.2.0. The implementation is procedural PHP; runtime code is split by responsibility.
+Version 0.3.0. The implementation is procedural PHP; runtime code is split by responsibility.
 
 ## Responsibilities
 
@@ -22,7 +22,8 @@ The package contains these runtime modules. Tests and build tooling stay outside
 simcloud-woocommerce.php       Plugin header, dependency checks, hooks
 includes/settings.php         Token configuration and connection diagnostics
 includes/api.php              Fixed SIMcloud endpoints and response validation
-includes/products.php         Prepaid product settings, catalogue mapping and data-product import
+includes/images.php           Bundled-logo mapping and local Media Library attachments
+includes/products.php         Prepaid settings and data/VAS product import
 includes/cart.php             Recipient input, validation, cart isolation
 includes/orders.php           Purchase snapshots and order views
 includes/fulfilment.php        Submission state machine, scheduling, polling, watchdog

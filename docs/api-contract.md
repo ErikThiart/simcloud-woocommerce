@@ -100,6 +100,8 @@ A future provider change could add account-scoped idempotent submission and refe
 
 ## VAS vouchers (implemented)
 
+The catalogue also exposes `logo_url`. From v0.3.0, known SIMcloud logo filenames select bundled image files; runtime does not fetch image URLs. VAS import creates one product per unique available denomination. The API amount is the initial retail price. Quick setup combines balance and both catalogue GETs; no paid create is part of setup.
+
 `GET /api/vas.php` returns `products` with `product_id`, `voucher_type`, `slug`, `default_amount`, and `available_amounts`. Configuration and purchase checks require an exact product ID and an available denomination. Submit `product_id`, `amount`, and an opaque `reference` through POST. A valid `201` returns `order_id`, `transaction_id`, product/amount/reference, `process_status` and billing/fee fields.
 
 Query with `order_id` or `transaction_id`. Top-level `pending` means processing; `failed` is terminal failure; `success` requires `vouchers`. Each voucher includes `voucher_type`, `voucher_code`, nullable `value` and `expiry_date`. The plugin verifies purchase identity and requires nonempty redeemable codes before delivery. It stores normalized codes/descriptions/expiry only in its restricted ledger; raw provider bodies are not retained. No merchant-reference lookup or durable idempotency is assumed for VAS.

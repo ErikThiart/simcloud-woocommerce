@@ -33,7 +33,7 @@ add_filter('pre_http_request', function ($pre, $args, $url) {
     } elseif ($service === 'data' && !isset($query['request_id']) && $method === 'GET') {
         $body['products'] = $GLOBALS['simcloud_wc_test_data_products'] ?? [['product_id' => 7, 'network' => 'pd-mtn', 'network_name' => 'MTN', 'description' => 'Synthetic 1GB bundle', 'groupname' => 'Test', 'amount' => 25, 'sellvalue' => 25]];
     } elseif ($service === 'vas' && !isset($query['order_id']) && $method === 'GET') {
-        $body['products'] = [['product_id' => 12, 'voucher_type' => 'Synthetic store voucher', 'available_amounts' => [50, 100], 'default_amount' => 100]];
+        $body['products'] = $GLOBALS['simcloud_wc_test_vas_products'] ?? [['product_id' => 12, 'voucher_type' => 'Synthetic store voucher', 'available_amounts' => [50, 100], 'default_amount' => 100]];
     } elseif ($service === 'electricity' && isset($query['meter_number'])) {
         $body += ['meter_number' => $query['meter_number'], 'supported' => $mode === 'meter_unknown' ? null : true];
     } elseif ($method === 'POST') {

@@ -1,6 +1,6 @@
 # SIMcloud WooCommerce screenshots
 
-Preview the actual WordPress administration screens and customer experience for the airtime, data, VAS voucher and prepaid electricity plugin. For v0.2.0, see the [automatic data-product import screenshots](data-product-import.md). The gallery below records v0.1.0. Follow the [illustrated installation guide](installation.md) for the full upload-to-activation sequence and [product setup](product-setup.md) for all four service configurations.
+Preview the actual WordPress administration screens and customer experience for the airtime, data, VAS voucher and prepaid electricity plugin. For current v0.3.0 setup and storefront logos, see [quick-start screenshots](quick-start.md). For v0.2.0 import history, see the [data-product import capture provenance](images/README.md). The gallery below records v0.1.0. Follow the [illustrated installation guide](installation.md) for the full upload-to-activation sequence and [product setup](product-setup.md) for all four service configurations.
 
 **Capture context:** v0.1.0 prerelease, WordPress 7.1.3, WooCommerce 11.2.1, captured 19 October 2026. These are real interfaces in a local demonstration store. Balance, catalogue, phone/meter details, payments and provider responses are synthetic. Test codes cannot be redeemed. No live wallet was charged. The capture environment is described in [image provenance](images/README.md). Click images to view full size.
 

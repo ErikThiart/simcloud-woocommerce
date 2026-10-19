@@ -1,6 +1,6 @@
 # SIMcloud WooCommerce plugin FAQ
 
-Answers for store owners evaluating **v0.2.0 (prerelease)**. Start with the [illustrated installation guide](installation.md) or [screenshot gallery](screenshots.md).
+Answers for store owners evaluating **v0.3.0 (prerelease)**. Start with the [illustrated installation guide](installation.md) or [screenshot gallery](screenshots.md).
 
 ## Is the plugin free and open source?
 
@@ -28,9 +28,13 @@ BACS, cheque and COD are excluded from automatic authorization. Staff must confi
 
 No. Customer funds settle through your payment gateway. Provider purchases use your separately funded SIMcloud account. The connection check shows a last known balance; it does not reserve funds.
 
-## Can the product-list API populate data bundles automatically?
+## Can the APIs populate data and VAS products automatically?
 
-Yes. Click **Refresh catalogues / import data** in WooCommerce → SIMcloud. Missing unambiguous data bundles are published automatically with API details configured and the API amount as the regular retail price. Existing prices and merchant edits are preserved. See [automatic data-product import](data-product-import.md).
+Yes. Click **Refresh catalogues / import products** in WooCommerce → SIMcloud. Missing unambiguous data bundles and VAS denominations are published automatically with API details, default logos and the API amount as the regular retail price. New stores can use **Connect & set up products** to save the token, verify the connection and run both imports in one action. Existing prices and custom images are preserved. See [automatic data-product import](data-product-import.md).
+
+## Are the logos downloaded by every store?
+
+The 23 original logo JPEGs are included in the installable ZIP. Setup copies the correct defaults into the local Media Library and reuses an attachment across products of the same brand. Existing custom images are kept. Runtime does not hotlink logos or download arbitrary catalogue image URLs. Unknown future brands need a package update or a merchant image. See [quick setup](quick-start.md).
 
 ## Can I set my own prices?
 

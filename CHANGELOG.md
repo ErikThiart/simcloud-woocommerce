@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 — 19 October 2026
+
+- Add **Connect & set up products** to save settings, verify the account and populate data/VAS products in one action.
+- Import one simple published VAS product per available denomination, using that amount as the initial regular retail price.
+- Bundle 23 original SIMcloud logos: four networks and 19 VAS brands, with public source URLs and SHA-256 checksums.
+- Copy defaults into the local Media Library, reuse brand attachments, fill empty existing data/VAS images and preserve custom images/prices/states.
+- Assign a default logo when manually saving an airtime/data/VAS product with no image.
+- Add Media Library/error/permission tests, source-asset checks and illustrated quick-start instructions.
+
+Prerelease. Product setup makes read-only API calls and leaves live wallet spending opt-in.
+
 ## 0.2.0 — 19 October 2026
 
 - Refresh catalogues now imports missing data-bundle products automatically from the product-list API.

@@ -51,7 +51,7 @@ $manual->save();
 try {
     $catalogue = sc_import_catalogue($rows);
     $result = simcloud_wc_import_data_products($catalogue);
-    sc_import_assert($result === ['created' => 3, 'existing' => 1, 'skipped' => 0, 'failed' => 0], 'Data API catalogue creates missing products and recognizes a manually configured product');
+    sc_import_assert($result === ['created' => 3, 'existing' => 1, 'skipped' => 0, 'failed' => 0, 'images_added' => 4, 'image_warnings' => 0], 'Data API catalogue creates missing products and recognizes a manually configured product');
     $imported = sc_import_products();
     sc_import_assert(count($imported) === 3, 'Exactly one WooCommerce product is created per missing provider product ID');
     foreach ($imported as $product) {
@@ -98,7 +98,7 @@ try {
     sc_import_assert(is_wp_error(simcloud_wc_import_data_products($catalogue)), 'A non-ZAR store cannot import rand-priced provider mappings');
     update_option('woocommerce_currency', 'ZAR');
     $other = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
-    $lock = 'simcloud_data_' . md5(DB_NAME . $wpdb->prefix);
+    $lock = 'simcloud_products_' . md5(DB_NAME . $wpdb->prefix);
     $other->get_var($other->prepare('SELECT GET_LOCK(%s, 0)', $lock));
     $blocked = simcloud_wc_import_data_products($catalogue);
     $other->get_var($other->prepare('SELECT RELEASE_LOCK(%s)', $lock));

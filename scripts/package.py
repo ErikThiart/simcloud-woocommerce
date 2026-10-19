@@ -4,8 +4,10 @@ from pathlib import Path
 import hashlib
 import re
 import zipfile
+from check_assets import check_assets
 
 root = Path(__file__).resolve().parents[1]
+check_assets(root)
 version = re.search(r"\* Version: ([0-9.]+)", (root / "simcloud-woocommerce.php").read_text()).group(1)
 files = [root / p for p in ("simcloud-woocommerce.php", "uninstall.php", "readme.txt", "LICENSE")]
 files += sorted((root / "includes").glob("*.php"))

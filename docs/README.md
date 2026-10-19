@@ -1,17 +1,18 @@
 # SIMcloud for WooCommerce documentation
 
-Install and operate the open-source WordPress plugin for South African airtime, data bundles, VAS vouchers and prepaid electricity. These guides describe **v0.2.0, a prerelease**.
+Install and operate the open-source WordPress plugin for South African airtime, data bundles, VAS vouchers and prepaid electricity. These guides describe **v0.3.0, a prerelease**.
 
 ## Start here: store owners
 
 | Step | Guide | What you will learn |
 | --- | --- | --- |
 | 1 | [Install with screenshots](installation.md) | Download the correct ZIP, activate it, connect SIMcloud and prepare fulfilment |
-| 2 | [Import data bundles](data-product-import.md) | Publish missing API bundles at their API amount without manual product entry |
-| 3 | [Set up products](product-setup.md) | Configure each of the four services, denominations and selling prices |
-| 4 | [See the screens](screenshots.md) | Preview customer entry, checkout, staff actions and code delivery |
-| 5 | [Operate your store](merchant-guide.md) | Handle payments, background jobs, fulfilment, restores and privacy |
-| 6 | [Resolve problems](troubleshooting.md) | Diagnose setup and order issues without repeating uncertain purchases |
+| 2 | [One-click account and product setup](quick-start.md) | Connect the API, publish data/VAS products and assign local logos |
+| 3 | [Data/VAS import rules](data-product-import.md) | Understand pricing, identities, preserved edits and image defaults |
+| 4 | [Set up products](product-setup.md) | Configure each of the four services, denominations and selling prices |
+| 5 | [See the screens](screenshots.md) | Preview customer entry, checkout, staff actions and code delivery |
+| 6 | [Operate your store](merchant-guide.md) | Handle payments, background jobs, fulfilment, restores and privacy |
+| 7 | [Resolve problems](troubleshooting.md) | Diagnose setup and order issues without repeating uncertain purchases |
 
 [Frequently asked questions](faq.md) explain costs, payment gateways, supported products and delivery. [Support](../SUPPORT.md) explains where to report plugin bugs and where to take private transaction questions.
 

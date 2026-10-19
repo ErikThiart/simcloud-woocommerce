@@ -1,6 +1,6 @@
 # Set up airtime, data, VAS and electricity products in WooCommerce
 
-Configure each service in **Products → Add new product → Product data → General**. This guide describes **v0.2.0 (prerelease)**. Finish the [installation and connection steps](installation.md) first.
+Configure each service in **Products → Add new product → Product data → General**. This guide describes **v0.3.0 (prerelease)**. Finish the [installation and connection steps](installation.md) first.
 
 The manual-configuration screenshots below were captured with v0.1.0 and show real saved WooCommerce product settings with **synthetic provider catalogue data**. Names, IDs, amounts and markups are examples, not current SIMcloud offers or recommended selling prices. Refresh your own catalogue and confirm your commercial terms.
 
@@ -30,11 +30,11 @@ The customer enters a South African mobile number on the product page. The plugi
 
 ## Data bundle product
 
-**Automatic setup:** click **Refresh catalogues / import data** in WooCommerce → SIMcloud. Missing data products are published with network, catalogue ID and provider amount configured, using the API amount as their initial regular retail price. See [automatic import with screenshots](data-product-import.md). Existing products and prices are preserved.
+**Automatic setup:** click **Refresh catalogues / import products** in WooCommerce → SIMcloud. Missing data products are published with network, catalogue ID, amount and network logo configured, using the API amount as their initial regular retail price. See [automatic import with screenshots](data-product-import.md). Existing products and prices are preserved.
 
 You can still configure a data product manually using the fields below.
 
-Click **Refresh catalogues / import data** in SIMcloud settings first. Choose an available data product with the matching network and exact provider amount.
+Click **Refresh catalogues / import products** in SIMcloud settings first. Choose an available data product with the matching network and exact provider amount.
 
 The local example is **MTN 1GB Data (Demo)**, retail **R27**, network **MTN**, provider amount **R25**, catalogue **`data:7`**. These are synthetic values: they do not establish that this bundle or price is available to your account.
 
@@ -43,6 +43,9 @@ The local example is **MTN 1GB Data (Demo)**, retail **R27**, network **MTN**, p
 Use the current catalogue description to explain size and validity. Data creation uses network and amount in the current provider contract; ambiguous mappings are rejected. If the catalogue changes, update the product for future purchases and preserve existing order snapshots. Do not silently replace a customer's bundle.
 
 ## VAS voucher product
+
+**Automatic setup:** [quick setup](quick-start.md) imports one published product per available VAS denomination, priced at that denomination and using the bundled brand logo. Existing merchant prices and custom images remain intact. Manual configuration below remains available.
+
 
 Refresh catalogues, choose **VAS voucher**, select the VAS product and set one of its available provider denominations. Network is unused.
 

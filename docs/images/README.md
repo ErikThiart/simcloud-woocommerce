@@ -38,3 +38,9 @@ Remove credentials, real customer details, order-key links, redeemable codes, br
 `data-import/` records the release-candidate v0.2.0 ZIP installed in the same isolated WordPress 7.1.3 / WooCommerce 11.2.1 / PHP 8.4.17 demonstration site. Package SHA-256: `2596659addaeca445639f3f059903296e60c1b0a64a264759a3c73265f26e682`.
 
 The catalogue refresh was performed through the actual settings button. Synthetic Vodacom product `81` (R49) and Telkom product `82` (R35) were published automatically. The existing manually configured MTN product `7` retained its R27 retail price and R25 provider amount. The first refresh reported two publications and one existing product; the second reported zero publications and three existing products. Settings, product-list and imported-product editor screenshots record those results. No live API purchase was made.
+
+## v0.3.0 one-click setup captures
+
+`quick-start/` records a fresh WordPress 7.1.3 / WooCommerce 11.2.1 / PHP 8.4.17 site with the packaged v0.3.0 plugin. A synthetic token was entered in the actual settings form and one **Connect & set up products** click created four data products and six VAS denominations. Ten featured images used seven shared local attachments. Repeating setup added no products/images, and live submissions remained disabled. Anonymous storefront images loaded locally and the tested 390-pixel view had no horizontal overflow.
+
+The product names, amounts and balance are synthetic catalogue fixtures. The 23 original logo JPEGs were downloaded from the public SIMcloud URLs in [the bundled source manifest](../../assets/images/sources.json). No paid request was sent. Screenshots cover the entered token (nonfunctional), result counts, the admin product list and storefront branding.
