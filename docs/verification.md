@@ -10,7 +10,7 @@ Tests used intercepted HTTP responses and synthetic payment collection. They exe
 
 ## Additional evidence
 
-The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocommerce/actions/runs/39266219835) for PHP 8.2/8.4/8.5, legacy/HPOS storage and minimum/current WordPress/WooCommerce combinations. Every job passed both the source-checkout tests and installation/testing of the exact release ZIP.
+The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml) for PHP 8.2/8.4/8.5, legacy/HPOS storage and minimum/current WordPress/WooCommerce combinations. Every job passed both the source-checkout tests and installation/testing of the exact release ZIP.
 
 | PHP | WordPress | WooCommerce | MariaDB | Storage | Source and ZIP suite |
 | --- | --- | --- | --- | --- | --- |
