@@ -1,6 +1,8 @@
-# Merchant guide
+# Merchant operations guide
 
-This guide describes version 0.1.0. Start with a staging installation using mocked transport, then arrange a controlled live purchase with your own funded SIMcloud account. The project does not provide a SIMcloud sandbox or test wallet.
+For first-time setup, follow [installation with screenshots](installation.md) and [four-service product setup](product-setup.md). Use the [FAQ](faq.md), [screenshot gallery](screenshots.md) and [troubleshooting guide](troubleshooting.md) for common questions.
+
+This guide describes version 0.1.0 (prerelease). Start with a staging installation using mocked transport, then arrange a controlled live purchase with your own funded SIMcloud account. The project does not provide a SIMcloud sandbox or test wallet.
 
 ## Installation
 
@@ -18,7 +20,7 @@ Use **Check connection / balance** after saving. It performs a GET, displays the
 
 ## Catalogue and products
 
-![Synthetic merchant settings](images/merchant-settings.png)
+See [catalogue screenshots](screenshots.md#data-and-vas-catalogue-refresh) and [product configuration examples](product-setup.md).
 
 Use **Refresh catalogues** to load current data and VAS products. Cached results expire after 15 minutes; validation refreshes expired data through the API. The settings tables show product IDs, descriptions and available provider amounts.
 

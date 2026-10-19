@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — repository documentation
+
+- Added illustrated WordPress installation, four-service product setup, screenshot gallery, FAQ and troubleshooting guides.
+- Reworked the README and documentation navigation, with screenshot provenance, repository presentation guidance and a documentation issue form.
+- Added a code of conduct and expanded documentation checks. Runtime v0.1.0 and its release ZIP are unchanged.
+
 ## 0.1.0 — 19 October 2026
 
 Initial implementation for WooCommerce:

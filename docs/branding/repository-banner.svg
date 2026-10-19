@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">SIMcloud for WooCommerce: sell prepaid on your WordPress website</title>
+<desc id="desc">Open-source South African airtime, data, VAS voucher and prepaid electricity fulfilment through the SIMcloud API.</desc>
+<rect width="1280" height="640" rx="0" fill="#153d32"/>
+<path d="M960 0H1280V640H1135L960 0Z" fill="#1c4a3d"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="72" y="78" fill="#b8dbc8" font-size="16" font-weight="700" letter-spacing="2">WORDPRESS + WOOCOMMERCE · SOUTH AFRICA</text>
+<text x="72" y="156" fill="#ffffff" font-size="48" font-weight="700">SIMcloud for WooCommerce</text>
+<text x="72" y="252" fill="#ffffff" font-size="65" font-weight="700">Sell prepaid.</text>
+<text x="72" y="326" fill="#d9ece0" font-size="53">On your own website.</text>
+<text x="75" y="382" fill="#bed7ca" font-size="23">Your storefront. Your payment gateway. Your SIMcloud account.</text>
+<g fill="#f1f7f3">
+<rect x="72" y="431" width="245" height="81" rx="12"/><rect x="333" y="431" width="245" height="81" rx="12"/>
+<rect x="594" y="431" width="245" height="81" rx="12"/><rect x="855" y="431" width="353" height="81" rx="12"/>
+</g>
+<g fill="#1a4736" font-size="23" font-weight="700">
+<text x="101" y="481">Airtime</text><text x="362" y="481">Data bundles</text><text x="623" y="481">VAS vouchers</text><text x="884" y="481">Prepaid electricity</text>
+</g>
+<text x="74" y="577" fill="#b8dbc8" font-size="18">Open-source PHP plugin · GPL v2 or later · Documented installation</text>
+</g></svg>

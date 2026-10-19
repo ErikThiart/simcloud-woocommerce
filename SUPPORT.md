@@ -4,9 +4,11 @@
 
 Version 0.1.0 is an initial installable release for airtime, data, VAS and electricity. See [verification](docs/verification.md) for tested combinations and limits, and the [roadmap](docs/roadmap.md) for further work.
 
+Start with [illustrated installation](docs/installation.md), [product setup](docs/product-setup.md), [troubleshooting](docs/troubleshooting.md) and the [FAQ](docs/faq.md). Browse the [documentation index](docs/README.md) for operations and developer guides.
+
 ## Plugin questions and contributions
 
-Use [GitHub Issues](https://github.com/ErikThiart/simcloud-woocommerce/issues) for documentation corrections, reproducible plugin bugs once code exists, and feature proposals. Provide a clear description, expected/actual behaviour, relevant versions, and synthetic reproduction steps. Redact all customer data and secrets.
+Use [GitHub Issues](https://github.com/ErikThiart/simcloud-woocommerce/issues) for documentation corrections, reproducible plugin bugs, and feature proposals. Provide a clear description, expected/actual behaviour, relevant versions, and synthetic reproduction steps. Redact all customer data and secrets. For unclear steps or screenshots, use the [documentation issue form](https://github.com/ErikThiart/simcloud-woocommerce/issues/new?template=documentation.yml).
 
 ## Account, payment, and delivery support
 

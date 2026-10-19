@@ -1,0 +1,32 @@
+name: Documentation or installation guide
+description: Report unclear instructions, broken links or outdated screenshots.
+title: "[Docs]: "
+labels: [documentation]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include API tokens, customer details, private order links, receipts or redeemable codes. Use private security reporting for vulnerabilities."
+  - type: input
+    id: page
+    attributes:
+      label: Documentation page or section
+      description: Link to the page and name the heading or screenshot.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What was unclear or incorrect?
+      description: Describe the step you followed and what you expected to understand.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+      description: Optional wording or a description of the missing explanation.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions, if relevant
+      description: Plugin, WordPress, WooCommerce and PHP versions. Do not include private system details.

@@ -2,6 +2,8 @@
 
 Thank you for contributing to SIMcloud for WooCommerce. The project has an initial installable four-service release. Focused bug reports, tests, documentation improvements and scoped design feedback are welcome.
 
+For merchant instructions, start with [installation](docs/installation.md) and [product setup](docs/product-setup.md). Documentation corrections have a dedicated [issue form](https://github.com/ErikThiart/simcloud-woocommerce/issues/new?template=documentation.yml). Follow the [repository guide](docs/repository-guide.md) and [screenshot provenance instructions](docs/images/README.md) when updating guides.
+
 ## Start with the scope
 
 Read the [product specification](docs/product-specification.md), [architecture](docs/architecture.md), [API notes](docs/api-contract.md), and [roadmap](docs/roadmap.md). Open an issue before implementing a new service, changing purchase/payment policies, or adding a dependency. Keep pull requests focused on one problem and explain any tradeoff.
@@ -28,7 +30,7 @@ git diff --check
 
 Use Python 3.10 or newer. Describe future behaviour as planned until implemented. Every new feature needs matching merchant instructions, API notes where applicable, failure/recovery behaviour, and tests. Do not commit placeholder screenshots or unsupported compatibility claims.
 
-The [testing plan](docs/testing.md) defines the future application checks. Follow its isolated database instructions. Never use a production database or live API credentials in ordinary tests.
+The [testing plan](docs/testing.md) describes the integration checks. Follow its isolated database instructions. Never use a production database or live API credentials in ordinary tests.
 
 ## Pull request checklist
 
@@ -44,4 +46,4 @@ Use synthetic fixtures and mock HTTP transport by default. Never add live tokens
 
 Submit only material you can license. Contributions are accepted under the project's [GPL-2.0-or-later license](LICENSE), unless separately agreed in writing. Declare third-party dependencies and their compatible licenses. No contributor agreement or transfer of copyright is required by this repository.
 
-Be respectful and specific in technical discussions. Critique the change rather than the person. Report sensitive issues through [SECURITY.md](SECURITY.md); use [SUPPORT.md](SUPPORT.md) for account and transaction boundaries.
+Follow the [code of conduct](CODE_OF_CONDUCT.md). Be respectful and specific in technical discussions. Critique the change rather than the person. Report sensitive issues through [SECURITY.md](SECURITY.md); use [SUPPORT.md](SUPPORT.md) for account and transaction boundaries.

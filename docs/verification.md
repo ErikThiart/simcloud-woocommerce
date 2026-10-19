@@ -16,7 +16,9 @@ The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocomme
 | --- | --- | --- | --- | --- | --- |
 | 8.2.34 | 6.8.3 | 10.0.4 | 11.4.13 | Legacy | 76 assertions each, plus concurrency/lifecycle |
 | 8.4.26 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 76 assertions each, plus concurrency/lifecycle |
-| 8.5.11 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 76 assertions each, plus concurrency/lifecycle | The exact runtime ZIP was installed through WordPress and passed the same 76-assertion suite plus concurrent-worker and lifecycle checks.
+| 8.5.11 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 76 assertions each, plus concurrency/lifecycle |
+
+The exact runtime ZIP was installed through WordPress and passed the same 76-assertion suite plus concurrent-worker and lifecycle checks.
 
 ## Browser validation
 
@@ -29,6 +31,10 @@ A data product was also saved successfully through the actual WooCommerce produc
 ![Synthetic VAS delivery](images/vas-delivery.png)
 
 ![Synthetic electricity delivery](images/electricity-delivery.png)
+
+## Illustrated documentation capture
+
+A fresh local WordPress installation used the released ZIP through the actual Upload Plugin interface. Installation, activation, connection/balance, catalogue refresh and four saved product settings were captured. Checkout Blocks with core BACS produced the customer examples; staff confirmation and intercepted provider responses produced final VAS/electricity delivery views. These captures are demonstrations with synthetic data, not additional live supplier acceptance. See the [gallery](screenshots.md) and [capture provenance](images/README.md).
 
 ## Static security checks
 
