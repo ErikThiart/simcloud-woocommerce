@@ -113,6 +113,11 @@ foreach (['airtime', 'data', 'vas', 'electricity'] as $service) {
     }
 }
 
+wp_set_current_user(1);
+do_action('woocommerce_order_action_simcloud_wc_confirm_funds', wc_get_order($order->get_id()));
+sc_assert(wc_get_order($order->get_id())->get_status() === 'completed', 'Repeating staff funds confirmation cannot reopen a completed purchase');
+wp_set_current_user(0);
+
 foreach (['timeout', 'bad_ack', 'conflict'] as $mode) {
     [$order, $row] = sc_order($products['airtime']);
     $GLOBALS['simcloud_wc_test_mode'] = $mode;

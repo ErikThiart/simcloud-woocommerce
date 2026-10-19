@@ -4,7 +4,7 @@ Review date: 19 October 2026. This file records evidence without claiming unperf
 
 ## Local integration
 
-WordPress 7.1.3, WooCommerce 11.2.1, PHP 8.4.17 and MariaDB 13.0.2 were used in a dedicated local test installation. The four-service integration suite passed 75 assertions, including actual classic checkout and Checkout Blocks Store API order creation. Two separate WordPress/PHP processes produced exactly one atomic submission-claim winner. Interrupted-attempt and deactivation/reactivation/uninstall checks also passed.
+WordPress 7.1.3, WooCommerce 11.2.1, PHP 8.4.17 and MariaDB 13.0.2 were used in a dedicated local test installation. The four-service integration suite passed 76 assertions, including actual classic checkout and Checkout Blocks Store API order creation. Two separate WordPress/PHP processes produced exactly one atomic submission-claim winner. Interrupted-attempt and deactivation/reactivation/uninstall checks also passed.
 
 Tests used intercepted HTTP responses and synthetic payment collection. They exercised real WooCommerce products, orders, sessions, API routes, database constraints and job registration. No live merchant token or paid recharge was used.
 
@@ -14,9 +14,9 @@ The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocomme
 
 | PHP | WordPress | WooCommerce | MariaDB | Storage | Source and ZIP suite |
 | --- | --- | --- | --- | --- | --- |
-| 8.2.34 | 6.8.3 | 10.0.4 | 11.4.13 | Legacy | 75 assertions each, plus concurrency/lifecycle |
-| 8.4.26 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 75 assertions each, plus concurrency/lifecycle |
-| 8.5.11 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 75 assertions each, plus concurrency/lifecycle | The exact runtime ZIP was installed through WordPress and passed the same 75-assertion suite plus concurrent-worker and lifecycle checks.
+| 8.2.34 | 6.8.3 | 10.0.4 | 11.4.13 | Legacy | 76 assertions each, plus concurrency/lifecycle |
+| 8.4.26 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 76 assertions each, plus concurrency/lifecycle |
+| 8.5.11 | 7.1.3 | 11.2.1 | 11.4.13 | HPOS | 76 assertions each, plus concurrency/lifecycle | The exact runtime ZIP was installed through WordPress and passed the same 76-assertion suite plus concurrent-worker and lifecycle checks.
 
 ## Browser validation
 

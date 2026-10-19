@@ -71,7 +71,7 @@ add_filter('woocommerce_order_actions', function ($actions, $order) {
 
 add_action('woocommerce_order_action_simcloud_wc_confirm_funds', function ($order) {
     // WooCommerce verifies its order action nonce. This separate capability check also protects programmatic calls.
-    if (!current_user_can('manage_woocommerce') || $order->has_status(['cancelled', 'refunded', 'failed']) || (float) $order->get_total_refunded() > 0) {
+    if (!current_user_can('manage_woocommerce') || $order->has_status(['completed', 'cancelled', 'refunded', 'failed']) || (float) $order->get_total_refunded() > 0) {
         return;
     }
     $order->update_meta_data('_simcloud_wc_funds_confirmed', 'yes');
