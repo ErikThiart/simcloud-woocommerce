@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible problem using synthetic data.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project currently contains planning documents, not an installable plugin.
+        Never include tokens, real recipient numbers, payment details, or unredacted logs.
+        Report vulnerabilities privately through the repository Security page.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Use synthetic examples. For documentation issues, link the affected file and section.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Version and environment
+      description: Commit or release, WordPress, WooCommerce, PHP, HPOS and checkout mode where applicable. Do not include credentials.
+    validations:
+      required: true

@@ -1,0 +1,34 @@
+# Local credentials and environment
+.env
+.env.*
+!.env.example
+wp-config.php
+auth.json
+*.pem
+*.key
+*.p12
+
+# Dependencies and generated files
+/vendor/
+/node_modules/
+/dist/
+/build/
+/coverage/
+/.phpunit.cache/
+.phpunit.result.cache
+__pycache__/
+*.pyc
+
+# Operational data and archives
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.zip
+
+# Editor and operating system files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo

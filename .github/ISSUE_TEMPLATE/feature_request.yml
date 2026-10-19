@@ -1,0 +1,25 @@
+name: Feature proposal
+description: Propose a focused change and its acceptance criteria.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Merchant or customer problem
+      description: Describe who needs this and the concrete problem it solves.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+      description: Include alternatives and a smaller solution if one exists.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and API implications
+      description: How will this be verified? Link public API documentation if relevant. Include failure and recovery behaviour.
+    validations:
+      required: true

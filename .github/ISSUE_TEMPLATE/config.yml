@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security reporting
+    url: https://github.com/ErikThiart/simcloud-woocommerce/security
+    about: Report vulnerabilities privately; do not include exploit details in public issues.
+  - name: Account and transaction support
+    url: https://simcloud.co.za/
+    about: Use your private SIMcloud account/support channel for credentials, wallet, or provider transaction questions.
