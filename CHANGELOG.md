@@ -1,6 +1,16 @@
 # Changelog
 
-## Unreleased — repository documentation
+## 0.2.0 — 19 October 2026
+
+- Refresh catalogues now imports missing data-bundle products automatically from the product-list API.
+- New products are published, simple and virtual, with network/provider ID/amount configured and the API amount as the initial regular retail price.
+- Preserve existing merchant products, prices, descriptions, SKUs and publication state, including drafts and trash.
+- Skip malformed/ambiguous catalogue mappings; guard concurrent imports and report per-import counts and save failures.
+- Added real-database import tests and illustrated import documentation. No purchase or wallet spend is performed by import.
+
+Prerelease; live paid supplier acceptance remains separate.
+
+## Repository documentation — 19 October 2026
 
 - Added illustrated WordPress installation, four-service product setup, screenshot gallery, FAQ and troubleshooting guides.
 - Reworked the README and documentation navigation, with screenshot provenance, repository presentation guidance and a documentation issue form.

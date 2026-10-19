@@ -1,8 +1,8 @@
 # Install SIMcloud for WooCommerce in WordPress
 
-This illustrated guide takes you from the GitHub download to a configured WooCommerce prepaid store. It covers **airtime, data bundles, VAS vouchers and prepaid electricity** in **v0.1.0 (prerelease)**.
+This illustrated guide takes you from the GitHub download to a configured WooCommerce prepaid store. It covers **airtime, data bundles, VAS vouchers and prepaid electricity** in **v0.2.0 (prerelease)**.
 
-**Screenshot context:** actual WordPress 7.1.3 and WooCommerce 11.2.1 screens, captured on 19 October 2026 using the released plugin ZIP. Wallet balance, catalogues and transactions are synthetic. The example gateway `simcloud_test` exists only in the local test environment. Your versions, products and gateway IDs may differ. No live supplier purchase was performed. Click any image to enlarge it on GitHub.
+**Screenshot context:** actual WordPress 7.1.3 and WooCommerce 11.2.1 screens. The base upload/activation images were captured with v0.1.0 on 19 October 2026, so their filename is the earlier ZIP; use the v0.2.0 filename in the instructions. The updated import screens are in the [data-import guide](data-product-import.md). Wallet balance, catalogues and transactions are synthetic. The example gateway `simcloud_test` exists only in the local test environment. Your versions, products and gateway IDs may differ. No live supplier purchase was performed. Click any image to enlarge it on GitHub.
 
 ## Before you start
 
@@ -16,11 +16,11 @@ Use a backup before installing on an existing store. This release does not suppo
 
 ## 1. Download the installable plugin ZIP
 
-Open the [v0.1.0 release](https://github.com/ErikThiart/simcloud-woocommerce/releases/tag/v0.1.0) and expand **Assets**. Download **`simcloud-woocommerce-0.1.0.zip`**. The adjacent `.sha256` file is available for checksum verification.
+Open the [v0.2.0 release](https://github.com/ErikThiart/simcloud-woocommerce/releases/tag/v0.2.0) and expand **Assets**. Download **`simcloud-woocommerce-0.2.0.zip`**. The adjacent `.sha256` file is available for checksum verification.
 
 GitHub's **Source code (zip)** and **Source code (tar.gz)** downloads are source archives. The named plugin ZIP is the packaged WordPress installation file. There is no need to unzip it before uploading.
 
-![GitHub release Assets list showing the installable simcloud-woocommerce-0.1.0.zip and its checksum](images/installation/01-download-release-zip.png)
+![GitHub release Assets list showing the installable simcloud-woocommerce-0.2.0.zip and its checksum](images/installation/01-download-release-zip.png)
 
 ## 2. Open Upload Plugin in WordPress
 
@@ -30,9 +30,9 @@ Sign in to your WordPress administration area. Open **Plugins → Add New Plugin
 
 ## 3. Select the ZIP and install
 
-Click **Choose File**, select **`simcloud-woocommerce-0.1.0.zip`**, then click **Install Now**. Confirm the selected filename matches the release asset.
+Click **Choose File**, select **`simcloud-woocommerce-0.2.0.zip`**, then click **Install Now**. Confirm the selected filename matches the release asset.
 
-![WordPress plugin upload with simcloud-woocommerce-0.1.0.zip selected and Install Now available](images/installation/03-select-plugin-zip.png)
+![WordPress plugin upload with simcloud-woocommerce-0.2.0.zip selected and Install Now available](images/installation/03-select-plugin-zip.png)
 
 ## 4. Activate the plugin
 
@@ -58,11 +58,11 @@ Keep tokens out of screenshots, issues, browser scripts and Git. Managed hosts m
 
 ## 7. Refresh catalogues and create your products
 
-Click **Refresh catalogues**. The data and VAS tables show currently available provider products, IDs and amounts. Select your own available products; the screenshot's sample IDs and prices are demonstration data.
+Click **Refresh catalogues / import data**. This automatically publishes missing data-bundle products using the API amount as the initial WooCommerce regular retail price. Existing products and prices are preserved. See [automatic data-product import](data-product-import.md). The data and VAS tables show currently available provider products, IDs and amounts. Select your own available products; the screenshot's sample IDs and prices are demonstration data.
 
 ![SIMcloud settings displaying synthetic data and VAS catalogue rows after refresh](images/installation/07-refresh-data-vas-catalogues.png)
 
-Follow the [four-service product setup guide](product-setup.md). Create **simple** products, set the WooCommerce retail price, and configure the SIMcloud fields under **Product data → General**. Valid prepaid configurations become virtual and non-downloadable. Publish only after checking the service, network, catalogue and provider amount.
+Review the imported data products, then follow the [four-service product setup guide](product-setup.md) for the other services or manual configuration. Create **simple** products, set the WooCommerce retail price, and configure the SIMcloud fields under **Product data → General**. Valid prepaid configurations become virtual and non-downloadable. Publish only after checking the service, network, catalogue and provider amount.
 
 ## 8. Configure payment authorization and scheduled jobs
 

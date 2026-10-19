@@ -1,6 +1,6 @@
 # Order lifecycle and recovery
 
-Version 0.1.0 implementation and operator policy.
+Version 0.2.0 implementation and operator policy.
 
 Each purchased line has its own fulfilment record. Payment state belongs to WooCommerce; recharge state belongs to the plugin. Never use one field to mean both.
 
@@ -44,7 +44,7 @@ Repeated payment webhooks, repeated hooks, refreshed browser pages, and concurre
 | Polling limit reached | Mark review required, keep the ID, permit status refresh, and alert staff |
 | Restore or clone of a store | Pause submissions before jobs resume; reconcile every outstanding attempt against provider records |
 
-Any future resubmission action must require an authorized capability, nonce, an explicit warning showing recipient and amount, evidence that the prior request was not accepted, and an audit note. It must create a separate linked attempt record rather than overwriting the original evidence. Version 0.1.0 uses support-led recovery and has no resubmit button.
+Any future resubmission action must require an authorized capability, nonce, an explicit warning showing recipient and amount, evidence that the prior request was not accepted, and an audit note. It must create a separate linked attempt record rather than overwriting the original evidence. Version 0.2.0 uses support-led recovery and has no resubmit button.
 
 ## Reference design
 

@@ -1,6 +1,6 @@
 # SIMcloud WooCommerce plugin FAQ
 
-Answers for store owners evaluating **v0.1.0 (prerelease)**. Start with the [illustrated installation guide](installation.md) or [screenshot gallery](screenshots.md).
+Answers for store owners evaluating **v0.2.0 (prerelease)**. Start with the [illustrated installation guide](installation.md) or [screenshot gallery](screenshots.md).
 
 ## Is the plugin free and open source?
 
@@ -28,6 +28,10 @@ BACS, cheque and COD are excluded from automatic authorization. Staff must confi
 
 No. Customer funds settle through your payment gateway. Provider purchases use your separately funded SIMcloud account. The connection check shows a last known balance; it does not reserve funds.
 
+## Can the product-list API populate data bundles automatically?
+
+Yes. Click **Refresh catalogues / import data** in WooCommerce → SIMcloud. Missing unambiguous data bundles are published automatically with API details configured and the API amount as the regular retail price. Existing prices and merchant edits are preserved. See [automatic data-product import](data-product-import.md).
+
 ## Can I set my own prices?
 
 Yes. WooCommerce retail prices, taxes and coupons are separate from the provider amount. A discount does not change the prepaid denomination. Electricity's provider amount includes the SIMcloud fee and does not promise an equal value in electricity units. Confirm commercial and tax treatment for your store.
@@ -38,7 +42,7 @@ In the authorized WooCommerce order details after confirmed delivery. Emails dir
 
 ## Can I sell physical goods and prepaid products together?
 
-The initial release requires prepaid-only baskets, simple virtual products and quantity one per recipient line. Mixed prepaid/other baskets, variable products, subscriptions, bulk imports, customer wallets, multi-currency and network-wide activation are outside this release's scope.
+The initial release requires prepaid-only baskets, simple virtual products and quantity one per recipient line. Mixed prepaid/other baskets, variable products, subscriptions, bulk order imports, customer wallets, multi-currency and network-wide activation are outside this release's scope.
 
 ## Does refunding an order cancel the recharge?
 

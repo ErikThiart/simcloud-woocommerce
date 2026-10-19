@@ -41,7 +41,8 @@ function simcloud_wc_settings_page() {
     $ids = array_keys(WC()->payment_gateways()->payment_gateways());
     echo '<p>' . esc_html__('Installed IDs: ', 'simcloud-woocommerce') . esc_html(implode(', ', $ids)) . '</p></td></tr><tr><th>' . esc_html__('Live submissions', 'simcloud-woocommerce') . '</th><td><label><input type="checkbox" name="enabled" value="1" ' . checked(get_option('simcloud_wc_enabled'), 'yes', false) . '> ' . esc_html__('Enable this site to spend my SIMcloud wallet after confirmed payment.', 'simcloud-woocommerce') . '</label><p>' . esc_html__('Saving this choice binds fulfilment to the current site URL. Staging/development environments and SIMCLOUD_WC_DISABLE_SUBMISSIONS block submissions. Pause before backups, restores or cloning.', 'simcloud-woocommerce') . '</p></td></tr></table>';
     echo '<button class="button button-primary" name="operation" value="save">' . esc_html__('Save settings', 'simcloud-woocommerce') . '</button>';
-    echo ' <button class="button" name="operation" value="balance">' . esc_html__('Check connection / balance', 'simcloud-woocommerce') . '</button> <button class="button" name="operation" value="catalogue">' . esc_html__('Refresh catalogues', 'simcloud-woocommerce') . '</button></form>';
+    echo ' <button class="button" name="operation" value="balance">' . esc_html__('Check connection / balance', 'simcloud-woocommerce') . '</button> <button class="button" name="operation" value="catalogue">' . esc_html__('Refresh catalogues / import data', 'simcloud-woocommerce') . '</button></form>';
+    echo '<p>' . esc_html__('Refreshing imports missing data bundles as published WooCommerce products using the API amount as the regular retail price. Existing products, including their prices, drafts and trash, are preserved. VAS catalogue refresh does not create products.', 'simcloud-woocommerce') . '</p>';
     $balance = get_option('simcloud_wc_balance', []);
     if (is_array($balance) && isset($balance['amount'], $balance['checked'])) {
         /* translators: 1: ZAR amount, 2: UTC timestamp. */
@@ -103,7 +104,16 @@ add_action('admin_post_simcloud_wc_settings', function () {
     } elseif ($operation === 'catalogue') {
         $data = simcloud_wc_catalogue('data', true);
         $vas = simcloud_wc_catalogue('vas', true);
-        $message = is_wp_error($data) || is_wp_error($vas) ? __('A catalogue could not be refreshed. Check authentication and try again.', 'simcloud-woocommerce') : __('Data and VAS catalogues refreshed. Retail prices and historical purchases were preserved.', 'simcloud-woocommerce');
+        if (is_wp_error($data)) {
+            $message = __('Data catalogue could not be refreshed. No data products were imported. Check authentication and try again.', 'simcloud-woocommerce');
+        } else {
+            $import = simcloud_wc_import_data_products($data);
+            /* translators: 1: created products, 2: existing products, 3: invalid or ambiguous rows, 4: failed saves. */
+            $message = is_wp_error($import) ? $import->get_error_message() : sprintf(__('Data import — published: %1$d; existing products preserved: %2$d; unavailable/ambiguous rows skipped: %3$d; save failures: %4$d. New products use the API amount as the regular retail price.', 'simcloud-woocommerce'), $import['created'], $import['existing'], $import['skipped'], $import['failed']);
+        }
+        if (is_wp_error($vas)) {
+            $message .= ' ' . __('VAS catalogue could not be refreshed.', 'simcloud-woocommerce');
+        }
     }
     set_transient('simcloud_wc_notice_' . get_current_user_id(), $message, 60);
     wp_safe_redirect(admin_url('admin.php?page=simcloud-wc'));

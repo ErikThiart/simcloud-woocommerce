@@ -9,7 +9,7 @@ python3 scripts/package.py
 bash scripts/test-package.sh
 ```
 
-Tests require the isolated setup described in [testing](testing.md). The builder emits `dist/simcloud-woocommerce-0.1.0.zip` and a SHA-256 file. Its explicit allowlist includes the bootstrap, uninstall file, includes, assets/translations, WordPress readme and license. Tests, fixtures, repository metadata, credentials, development scripts, logs and private operational files are excluded.
+Tests require the isolated setup described in [testing](testing.md). The builder emits `dist/simcloud-woocommerce-0.2.0.zip` and a SHA-256 file. Its explicit allowlist includes the bootstrap, uninstall file, includes, assets/translations, WordPress readme and license. Tests, fixtures, repository metadata, credentials, development scripts, logs and private operational files are excluded.
 
 ZIP paths have one `simcloud-woocommerce/` root. Timestamps and permissions are fixed so unchanged inputs produce the same bytes. Install the exact ZIP on a clean WordPress site before publishing it.
 
@@ -22,7 +22,7 @@ ZIP paths have one `simcloud-woocommerce/` root. Timestamps and permissions are 
 5. Update version headers, WordPress readme, changelog, merchant instructions and verification evidence together.
 6. Commit and push scoped changes, wait for the exact commit's CI matrix, then tag and publish the reviewed ZIP/checksum as a GitHub release.
 
-Version 0.1.0 is an initial prerelease pending merchant-owned live provider acceptance. Do not label mock-provider evidence as live delivery. A stable production recommendation requires the controlled four-service checks described in [testing](testing.md).
+Version 0.2.0 is a prerelease pending merchant-owned live provider acceptance. Do not label mock-provider evidence as live delivery. A stable production recommendation requires the controlled four-service checks described in [testing](testing.md).
 
 ## Rollback and maintenance
 

@@ -7,6 +7,7 @@ wp_test() { "$PHP_BIN" -d memory_limit=512M "$TEST_ROOT/wp-cli.phar" --path="$TE
 find "$ROOT/includes" "$ROOT/tests" -name '*.php' -print0 | xargs -0 -n 1 "$PHP_BIN" -l
 "$PHP_BIN" -l "$ROOT/simcloud-woocommerce.php"
 "$PHP_BIN" -l "$ROOT/uninstall.php"
+wp_test eval-file "$ROOT/tests/data-import.php"
 wp_test eval-file "$ROOT/tests/integration.php"
 START="$("$PHP_BIN" -r 'echo microtime(true) + 3;')"
 wp_test eval-file "$ROOT/tests/claim.php" "$START" > "$TEST_ROOT/claim-a.txt" &

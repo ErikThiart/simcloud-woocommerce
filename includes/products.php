@@ -5,6 +5,93 @@ function simcloud_wc_config($product) {
     return $product instanceof WC_Product && is_array($product->get_meta('_simcloud_wc_config')) ? $product->get_meta('_simcloud_wc_config') : [];
 }
 
+function simcloud_wc_import_data_products($catalogue) {
+    if (!current_user_can('manage_woocommerce') || !current_user_can('edit_products')) {
+        return new WP_Error('simcloud_import_permission', __('You cannot import SIMcloud products.', 'simcloud-woocommerce'));
+    }
+    if (get_woocommerce_currency() !== 'ZAR') {
+        return new WP_Error('simcloud_import_currency', __('Data product import requires a ZAR store.', 'simcloud-woocommerce'));
+    }
+    if (!is_array($catalogue) || !isset($catalogue['products']) || !is_array($catalogue['products'])) {
+        return new WP_Error('simcloud_import_catalogue', __('No valid data catalogue was returned. No products were imported.', 'simcloud-woocommerce'));
+    }
+    global $wpdb;
+    // Connection-scoped lock prevents two admin refreshes from importing the same products.
+    $lock = 'simcloud_data_' . md5(DB_NAME . $wpdb->prefix);
+    if ((string) $wpdb->get_var($wpdb->prepare('SELECT GET_LOCK(%s, 0)', $lock)) !== '1') {
+        return new WP_Error('simcloud_import_busy', __('Another data import is running, or its database lock is unavailable. Try again later.', 'simcloud-woocommerce'));
+    }
+    $result = ['created' => 0, 'existing' => 0, 'skipped' => 0, 'failed' => 0];
+    try {
+        $existing = [];
+        $ids = get_posts(['post_type' => 'product', 'post_status' => array_keys(get_post_stati()), 'numberposts' => -1, 'fields' => 'ids',
+            'meta_query' => ['relation' => 'OR', ['key' => '_simcloud_wc_config', 'compare' => 'EXISTS'],
+                ['key' => '_simcloud_wc_data_product_id', 'compare' => 'EXISTS']]]);
+        foreach ($ids as $id) {
+            $product = wc_get_product($id);
+            if (!$product) {
+                continue;
+            }
+            $config = simcloud_wc_config($product);
+            if (($config['service'] ?? '') === 'data') {
+                $existing[(int) ($config['product_id'] ?? 0)] = true;
+            }
+            $existing[(int) $product->get_meta('_simcloud_wc_data_product_id')] = true;
+        }
+        $id_counts = [];
+        foreach ($catalogue['products'] as $entry) {
+            $id = is_array($entry) ? simcloud_wc_text($entry['product_id'] ?? '') : '';
+            $id_counts[$id] = ($id_counts[$id] ?? 0) + 1;
+        }
+        $networks = ['mtn' => 'MTN', 'vodacom' => 'Vodacom', 'cellc' => 'Cell C', 'heita' => 'Telkom'];
+        foreach ($catalogue['products'] as $entry) {
+            $id = is_array($entry) ? simcloud_wc_text($entry['product_id'] ?? '') : '';
+            if (!preg_match('/^[1-9][0-9]*$/D', $id) || strlen($id) > 10 || $id_counts[$id] !== 1) {
+                $result['skipped']++;
+                continue;
+            }
+            $config = ['service' => 'data', 'network' => simcloud_wc_network($entry['network'] ?? ''),
+                'amount' => simcloud_wc_text($entry['amount'] ?? ''), 'product_id' => (int) $id];
+            $description = simcloud_wc_text($entry['description'] ?? '');
+            if ($description === '' || is_wp_error(simcloud_wc_validate_config($config))) {
+                $result['skipped']++;
+                continue;
+            }
+            if (isset($existing[(int) $id])) {
+                $result['existing']++;
+                continue;
+            }
+            try {
+                $config['amount'] = simcloud_wc_decimal(simcloud_wc_cents($config['amount']));
+                $product = new WC_Product_Simple();
+                $product->set_name($networks[$config['network']] . ' — ' . $description);
+                $product->set_description($description);
+                $product->set_short_description(simcloud_wc_text($entry['groupname'] ?? ''));
+                $product->set_status('publish');
+                $product->set_regular_price($config['amount']);
+                $product->set_sku('simcloud-data-' . $id);
+                $product->set_virtual(true);
+                $product->set_downloadable(false);
+                $product->update_meta_data('_simcloud_wc_config', $config);
+                $product->update_meta_data('_simcloud_wc_data_product_id', (int) $id);
+                if (!$product->save()) {
+                    throw new RuntimeException('Product save returned no ID.');
+                }
+                $existing[(int) $id] = true;
+                $result['created']++;
+            } catch (Throwable $error) {
+                $result['failed']++;
+                wc_get_logger()->error('Data product import save failed.', ['source' => 'simcloud-woocommerce', 'provider_product_id' => (int) $id,
+                    'error_type' => get_class($error), 'error_code' => $error instanceof WC_Data_Exception ? sanitize_key($error->getErrorCode()) : (int) $error->getCode()]);
+            }
+        }
+        wc_get_logger()->info('Data product import finished.', ['source' => 'simcloud-woocommerce'] + $result);
+    } finally {
+        $wpdb->get_var($wpdb->prepare('SELECT RELEASE_LOCK(%s)', $lock));
+    }
+    return $result;
+}
+
 function simcloud_wc_validate_config($config, $catalogue_check = true) {
     $service = $config['service'] ?? '';
     $cents = simcloud_wc_cents($config['amount'] ?? '');

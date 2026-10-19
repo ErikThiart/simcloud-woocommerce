@@ -6,9 +6,9 @@ Sell South African **airtime, data bundles, VAS vouchers and prepaid electricity
 
 [![Plugin tests](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml/badge.svg)](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml) [![Documentation](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/docs.yml/badge.svg)](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/docs.yml) [![License: GPL v2 or later](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 
-**[Download v0.1.0 ZIP](https://github.com/ErikThiart/simcloud-woocommerce/releases/download/v0.1.0/simcloud-woocommerce-0.1.0.zip)** · **[Install with screenshots](docs/installation.md)** · **[See the plugin](docs/screenshots.md)** · **[Browse all documentation](docs/README.md)**
+**[Download v0.2.0 ZIP](https://github.com/ErikThiart/simcloud-woocommerce/releases/download/v0.2.0/simcloud-woocommerce-0.2.0.zip)** · **[Install with screenshots](docs/installation.md)** · **[See the plugin](docs/screenshots.md)** · **[Browse all documentation](docs/README.md)**
 
-**Release status:** v0.1.0 is an installable **prerelease**. Automated tests and browser checks use real WordPress/WooCommerce with synthetic SIMcloud responses. Live supplier delivery has not been verified by this project. Complete a controlled acceptance purchase with your own SIMcloud account before opening production sales. [Read the verification evidence](docs/verification.md).
+**Release status:** v0.2.0 is an installable **prerelease**. Automated tests and browser checks use real WordPress/WooCommerce with synthetic SIMcloud responses. Live supplier delivery has not been verified by this project. Complete a controlled acceptance purchase with your own SIMcloud account before opening production sales. [Read the verification evidence](docs/verification.md).
 
 ## What can I sell?
 
@@ -21,9 +21,15 @@ Sell South African **airtime, data bundles, VAS vouchers and prepaid electricity
 
 VAS means **value-added services**: the voucher products available to your SIMcloud account. Catalogue availability and denominations can change. Electricity's provider amount includes the SIMcloud fee and does not promise the same value in electricity units. You set the WooCommerce selling price separately from the amount sent to SIMcloud.
 
+## Automatic data-bundle products
+
+Click **WooCommerce → SIMcloud → Refresh catalogues / import data**. The plugin reads the product-list API and publishes missing data bundles with their names, networks, provider IDs and amounts already configured. The API amount becomes the initial WooCommerce regular retail price. Repeat imports preserve merchant edits and prices, and skip ambiguous bundles.
+
+**[See the automatic product import guide and screenshots →](docs/data-product-import.md)**
+
 ## How it works
 
-1. Create a simple WooCommerce product and choose its SIMcloud service.
+1. Import data bundles automatically, or create a simple product for airtime, VAS or electricity.
 2. The customer supplies a recipient mobile number, and a meter number for electricity. VAS vouchers need neither.
 3. Your payment gateway confirms payment through WooCommerce, or staff explicitly confirm received funds for an offline payment.
 4. A background job submits each eligible prepaid line to SIMcloud and checks its delivery status.
@@ -35,10 +41,10 @@ The plugin supports **classic checkout, WooCommerce Checkout Blocks and High-Per
 
 You need WordPress **6.8.3+**, WooCommerce **10.0.4+**, PHP **8.2+**, HTTPS, a **ZAR** store, working scheduled jobs, and your own funded SIMcloud account/API token. These are minimum requirements; the [tested version matrix](docs/verification.md) records the combinations actually checked.
 
-1. Download **`simcloud-woocommerce-0.1.0.zip`** from [Releases](https://github.com/ErikThiart/simcloud-woocommerce/releases/tag/v0.1.0). Choose the installable asset, rather than GitHub's source archive.
+1. Download **`simcloud-woocommerce-0.2.0.zip`** from [Releases](https://github.com/ErikThiart/simcloud-woocommerce/releases/tag/v0.2.0). Choose the installable asset, rather than GitHub's source archive.
 2. In WordPress, open **Plugins → Add New Plugin → Upload Plugin**, select the ZIP, install and activate it.
 3. Open **WooCommerce → SIMcloud**, save your token and check the connection.
-4. Refresh catalogues, [configure your products](docs/product-setup.md), and set allowed payment gateway IDs.
+4. Click **Refresh catalogues / import data** to populate data products, [configure the other services](docs/product-setup.md), and set allowed payment gateway IDs.
 5. Read the acceptance and recovery instructions before enabling live submissions. They start disabled.
 
 **[Follow the complete illustrated installation guide →](docs/installation.md)**
@@ -57,13 +63,14 @@ Customer payments go through **your WooCommerce payment gateway**. The plugin do
 
 A payment receipt is separate from prepaid delivery. Refunds do not reverse a recharge or redeemable code. If a purchase times out after submission, preserve its reference and reconcile the original attempt. The plugin does not automatically repeat an uncertain purchase, issue refunds or offer a resubmit button. [Understand order states and recovery](docs/order-lifecycle.md).
 
-The initial release supports virtual simple prepaid products with quantity one per recipient line. It excludes mixed prepaid/other baskets, variable products, subscriptions, network-wide activation, multi-currency, bulk imports and customer wallets. [Read the FAQ](docs/faq.md).
+The initial release supports virtual simple prepaid products with quantity one per recipient line. It excludes mixed prepaid/other baskets, variable products, subscriptions, network-wide activation, multi-currency, bulk order imports and customer wallets. [Read the FAQ](docs/faq.md).
 
 ## Documentation and help
 
 | I want to… | Start here |
 | --- | --- |
 | Install the plugin | [Illustrated installation](docs/installation.md) |
+| Automatically populate data bundles | [Data-product import](docs/data-product-import.md) |
 | Set up airtime, data, VAS or electricity | [Product setup with screenshots](docs/product-setup.md) |
 | Preview the admin and customer screens | [Screenshot gallery](docs/screenshots.md) |
 | Fix a setup or delivery problem | [Troubleshooting](docs/troubleshooting.md) and [FAQ](docs/faq.md) |

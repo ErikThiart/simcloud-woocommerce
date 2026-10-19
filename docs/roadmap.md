@@ -13,8 +13,12 @@ Release verification and limits are recorded in [verification](verification.md).
 3. Add further compatibility combinations only with executable evidence.
 4. Consider WordPress.org submission after applicable provider terms/privacy disclosures and directory review requirements are satisfied.
 
-Mixed baskets, variable products, subscriptions, customer wallets, bulk imports, SMS products, automatic refunds and guarded resubmission are separate proposals rather than hidden first-release commitments.
+Mixed baskets, variable products, subscriptions, customer wallets, bulk order/CSV imports, SMS products, automatic refunds and guarded resubmission are separate proposals rather than hidden first-release commitments.
 
 ## Provider improvement
 
 Account-scoped durable idempotency, payload matching and reference lookup across queued/final records would simplify recovery. Electricity currently transforms the submitted reference by appending a suffix; the plugin preserves the returned reference. Changing the provider contract is separate backend work. This repository does not alter SIMcloud production.
+
+## Data-product import — v0.2.0
+
+Implemented automatic publication of missing data bundles from the API product list, using the API amount as the initial regular retail price. Repeat imports preserve merchant edits and prices. Scheduled mirroring/repricing and VAS product import are outside this change.

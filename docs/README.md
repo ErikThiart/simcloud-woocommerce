@@ -1,16 +1,17 @@
 # SIMcloud for WooCommerce documentation
 
-Install and operate the open-source WordPress plugin for South African airtime, data bundles, VAS vouchers and prepaid electricity. These guides describe **v0.1.0, an initial prerelease**.
+Install and operate the open-source WordPress plugin for South African airtime, data bundles, VAS vouchers and prepaid electricity. These guides describe **v0.2.0, a prerelease**.
 
 ## Start here: store owners
 
 | Step | Guide | What you will learn |
 | --- | --- | --- |
 | 1 | [Install with screenshots](installation.md) | Download the correct ZIP, activate it, connect SIMcloud and prepare fulfilment |
-| 2 | [Set up products](product-setup.md) | Configure each of the four services, denominations and selling prices |
-| 3 | [See the screens](screenshots.md) | Preview customer entry, checkout, staff actions and code delivery |
-| 4 | [Operate your store](merchant-guide.md) | Handle payments, background jobs, fulfilment, restores and privacy |
-| 5 | [Resolve problems](troubleshooting.md) | Diagnose setup and order issues without repeating uncertain purchases |
+| 2 | [Import data bundles](data-product-import.md) | Publish missing API bundles at their API amount without manual product entry |
+| 3 | [Set up products](product-setup.md) | Configure each of the four services, denominations and selling prices |
+| 4 | [See the screens](screenshots.md) | Preview customer entry, checkout, staff actions and code delivery |
+| 5 | [Operate your store](merchant-guide.md) | Handle payments, background jobs, fulfilment, restores and privacy |
+| 6 | [Resolve problems](troubleshooting.md) | Diagnose setup and order issues without repeating uncertain purchases |
 
 [Frequently asked questions](faq.md) explain costs, payment gateways, supported products and delivery. [Support](../SUPPORT.md) explains where to report plugin bugs and where to take private transaction questions.
 

@@ -1,6 +1,6 @@
 # Troubleshoot SIMcloud for WooCommerce
 
-Use this guide for **v0.1.0 (prerelease)** installation, payment and prepaid delivery problems. Start with [installation](installation.md) and [product setup](product-setup.md) if this is a new store.
+Use this guide for **v0.2.0 (prerelease)** installation, payment and prepaid delivery problems. Start with [installation](installation.md) and [product setup](product-setup.md) if this is a new store.
 
 **If a purchase may already have reached SIMcloud, reconcile that original attempt before taking another payment or submitting another purchase.** A lost response is not proof that the provider rejected it. The [order lifecycle guide](order-lifecycle.md) explains recovery states and evidence.
 
@@ -8,7 +8,7 @@ Use this guide for **v0.1.0 (prerelease)** installation, payment and prepaid del
 
 | Symptom | Check and action |
 | --- | --- |
-| WordPress cannot find a plugin in the ZIP | Use the named `simcloud-woocommerce-0.1.0.zip` release asset. GitHub source archives are not the documented installation package. |
+| WordPress cannot find a plugin in the ZIP | Use the named `simcloud-woocommerce-0.2.0.zip` release asset. GitHub source archives are not the documented installation package. |
 | Activation fails | Confirm WooCommerce is active, PHP/WordPress/WooCommerce meet requirements, and this is an individual-site activation. Record the exact redacted error. |
 | SIMcloud menu is missing | Check the plugin is active and your user has WooCommerce management permission. Open WooCommerce → SIMcloud. |
 | Connection check fails | Confirm the saved token and any overriding `SIMCLOUD_WC_API_TOKEN` constant, outbound HTTPS and the displayed error. Save a replacement token before checking. Never post it publicly. |
@@ -17,6 +17,10 @@ Use this guide for **v0.1.0 (prerelease)** installation, payment and prepaid del
 | Data selection is ambiguous | Choose a supported network/amount mapping. The plugin cannot silently select between ambiguous provider products. |
 | Recipient or meter validation fails | Check the entered number/network or meter. A failed or unknown validation is not permission to bypass the check. Retry validation later if the provider is unavailable. |
 | A clone or restored site is paused | Verify the intended URL and production environment. Never copy live credentials to staging. Reconcile open purchases before deliberately enabling the intended installation. Same-URL database restores cannot be detected reliably. |
+
+## Data products were not imported
+
+Read the import result after **Refresh catalogues / import data**. Existing products are deliberately preserved, including drafts and trash. Skipped rows have invalid/ambiguous catalogue details; the API cannot distinguish products with the same network and amount. Failed saves are logged with provider IDs; check for SKU conflicts or WooCommerce save errors. A busy/unavailable database lock requires a later refresh. No products are deleted on an empty or failed catalogue read. See [import behaviour](data-product-import.md).
 
 ## Payment received but no delivery
 

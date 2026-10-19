@@ -1,6 +1,6 @@
 # Product specification
 
-Version 0.1.0 implementation baseline, 19 October 2026. The project owner authorized WooCommerce with airtime, data, VAS and electricity in the first build. See verification.md for tested behaviour and provider acceptance limits.
+Version 0.2.0 implementation baseline, 19 October 2026. The project owner authorized WooCommerce with airtime, data, VAS and electricity in the first build. See verification.md for tested behaviour and provider acceptance limits.
 
 ## Purpose and commercial flow
 
@@ -13,7 +13,7 @@ There are two independent money flows: the customer pays the store, and SIMcloud
 - South African airtime, data, VAS vouchers and prepaid electricity, sold in ZAR.
 - Existing WooCommerce simple products, marked virtual and configured for SIMcloud fulfilment. No new product class unless implementation proves it necessary.
 - Fixed airtime denominations configured by the merchant. The current API handler permits R2 through R999; revalidate this before release.
-- Data bundles selected from a refreshed SIMcloud catalogue, retaining the selected network, provider amount/sellvalue, and product description.
+- Data bundles automatically populated from a refreshed SIMcloud catalogue as published simple virtual products, using the API amount as the initial regular retail price and retaining the network, provider amount and product ID. Repeat imports preserve merchant products and prices. Manual setup remains available.
 - VAS products use the current catalogue and an available denomination; codes are delivered through authorized order details.
 - Electricity products use a whole-rand provider amount from R55 to R1000, with meter support validation and token delivery.
 - One recipient per applicable cart line, quantity one. Identical products for different recipients must remain separate lines. Quantity changes above one are rejected on the server.

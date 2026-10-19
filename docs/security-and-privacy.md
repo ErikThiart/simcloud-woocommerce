@@ -1,6 +1,6 @@
 # Security and privacy requirements
 
-Version 0.1.0 security design and implementation limits. This is not an independent security assessment.
+Version 0.2.0 security design and implementation limits. This is not an independent security assessment.
 
 ## Credentials and transport
 
@@ -10,6 +10,8 @@ Version 0.1.0 security design and implementation limits. This is not an independ
 - Use WordPress HTTP APIs, verified TLS, a fixed SIMcloud HTTPS host, an endpoint allowlist, explicit timeouts, and no authenticated redirects. Do not offer an arbitrary production base-URL setting.
 - Never expose tokens through frontend JavaScript, the Store API, HTML source, action arguments, logs, exports, screenshots, support bundles, or public issues.
 - WordPress database storage is not a claim of encryption at rest. Database access and backups remain sensitive; do not invent home-grown encryption.
+
+Data-product import requires both `manage_woocommerce` and `edit_products`, plus the settings nonce. A connection-scoped database lock serializes imports. New API-priced products are published; existing merchant products and prices are preserved.
 
 ## Input and purchase integrity
 

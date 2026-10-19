@@ -22,7 +22,9 @@ The database name must begin with `simcloud_wc_test`; a separate `SIMCLOUD_WC_TE
 
 ## Automated checks
 
-`test.sh` lints runtime/test PHP, executes the integration assertions, launches two separate PHP/WordPress processes against one purchase to verify an atomic claim, verifies interrupted-attempt recovery and deactivation/reactivation/uninstall, then checks documentation links.
+`test.sh` lints runtime/test PHP, executes the data-import and integration assertions, launches two separate PHP/WordPress processes against one purchase to verify an atomic claim, verifies interrupted-attempt recovery and deactivation/reactivation/uninstall, then checks documentation links.
+
+The data-import suite exercises real product creation, API-priced publication, manual/imported-product matching, repeat imports, merchant edits, trash, removed mappings, malformed/ambiguous catalogues, permissions, currency, a lock held by a second database connection, save failures and zero purchase requests.
 
 The integration suite covers all four service contracts, exact cents, denomination validation, network/meter checks, confirmed payment, duplicate hooks/jobs, immutable amounts, final delivery, VAS/electricity code retention, guest authorization, timeouts, invalid acknowledgements, duplicate conflicts, mismatched responses, provider failure, unavailable status, authentication pause, copied-site binding, classic checkout, and actual Checkout Blocks Store API add-item/checkout routes.
 

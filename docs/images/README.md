@@ -32,3 +32,9 @@ Use an isolated local database with intercepted provider transport and synthetic
 Remove credentials, real customer details, order-key links, redeemable codes, browser profile data and production logs before capture. Keep demonstration labels in the guide text and fake codes visibly non-redeemable. Inspect images at GitHub reading width, update alt text and captions, run the documentation checker and review the rendered guides.
 
 [← Screenshot gallery](../screenshots.md) · [Repository maintenance](../repository-guide.md)
+
+## v0.2.0 data-import captures
+
+`data-import/` records the release-candidate v0.2.0 ZIP installed in the same isolated WordPress 7.1.3 / WooCommerce 11.2.1 / PHP 8.4.17 demonstration site. Package SHA-256: `2596659addaeca445639f3f059903296e60c1b0a64a264759a3c73265f26e682`.
+
+The catalogue refresh was performed through the actual settings button. Synthetic Vodacom product `81` (R49) and Telkom product `82` (R35) were published automatically. The existing manually configured MTN product `7` retained its R27 retail price and R25 provider amount. The first refresh reported two publications and one existing product; the second reported zero publications and three existing products. Settings, product-list and imported-product editor screenshots record those results. No live API purchase was made.

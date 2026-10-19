@@ -1,14 +1,26 @@
-# Verification evidence — version 0.1.0
+# Verification evidence
 
 Review date: 19 October 2026. This file records evidence without claiming unperformed provider tests.
 
-## Local integration
+## Version 0.2.0 — automatic data-product import
+
+The real-database data-import suite passed **22 assertions**, alongside the **76-assertion** fulfilment suite, concurrency and lifecycle checks, against both source and the installed v0.2.0 ZIP on PHP 8.4.17 / WordPress 7.1.3 / WooCommerce 11.2.1 / MariaDB 13.0.2.
+
+The data-import suite checks publication using the API amount as the regular retail price, exact provider configuration, manual/imported product matching, preserved merchant edits/prices/drafts/trash, invalid/ambiguous rows, permissions, currency, concurrent database locks, save failures and zero prepaid POST requests. It runs alongside the existing 76-assertion four-service integration suite, concurrent-worker and lifecycle checks against source and the exact installable ZIP. The [CI workflow](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml) runs both suites across the three version combinations below.
+
+WordPress Plugin Check security-category checks on the exact v0.2.0 runtime returned **zero errors and 18 warnings**. The warnings concern uncached direct ledger queries and the prepared connection-scoped import-lock queries; caching a lock or atomic claim would be incorrect. This is not an independent audit.
+
+Browser verification installed the v0.2.0 ZIP and clicked the actual settings import button. Two synthetic products were published automatically at R49 and R35; a manually configured product retained its R27 retail price. A second refresh created zero duplicates and preserved all three data products. The product editor confirmed the imported service, network, provider amount and catalogue ID. See [screenshots and instructions](data-product-import.md) and [capture provenance](images/README.md). No authenticated live catalogue or paid supplier transaction was performed; the connected catalogue read was unavailable because no bearer token was configured.
+
+## Version 0.1.0 — baseline integration evidence
+
+### Local integration
 
 WordPress 7.1.3, WooCommerce 11.2.1, PHP 8.4.17 and MariaDB 13.0.2 were used in a dedicated local test installation. The four-service integration suite passed 76 assertions, including actual classic checkout and Checkout Blocks Store API order creation. Two separate WordPress/PHP processes produced exactly one atomic submission-claim winner. Interrupted-attempt and deactivation/reactivation/uninstall checks also passed.
 
 Tests used intercepted HTTP responses and synthetic payment collection. They exercised real WooCommerce products, orders, sessions, API routes, database constraints and job registration. No live merchant token or paid recharge was used.
 
-## Additional evidence
+### Additional evidence
 
 The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml) for PHP 8.2/8.4/8.5, legacy/HPOS storage and minimum/current WordPress/WooCommerce combinations. Every job passed both the source-checkout tests and installation/testing of the exact release ZIP.
 
@@ -20,7 +32,7 @@ The [three-job CI matrix passed](https://github.com/ErikThiart/simcloud-woocomme
 
 The exact runtime ZIP was installed through WordPress and passed the same 76-assertion suite plus concurrent-worker and lifecycle checks.
 
-## Browser validation
+### Browser validation
 
 A browser completed a classic-checkout VAS purchase using synthetic payment, and a Checkout Blocks electricity purchase using the core BACS gateway followed by explicit staff funds confirmation. Authorized order views displayed the expected non-redeemable test voucher and electricity token/units. A 390-pixel mobile viewport showed no horizontal overflow on the tested order view.
 
@@ -32,14 +44,14 @@ A data product was also saved successfully through the actual WooCommerce produc
 
 ![Synthetic electricity delivery](images/electricity-delivery.png)
 
-## Illustrated documentation capture
+### Illustrated documentation capture
 
 A fresh local WordPress installation used the released ZIP through the actual Upload Plugin interface. Installation, activation, connection/balance, catalogue refresh and four saved product settings were captured. Checkout Blocks with core BACS produced the customer examples; staff confirmation and intercepted provider responses produced final VAS/electricity delivery views. These captures are demonstrations with synthetic data, not additional live supplier acceptance. See the [gallery](screenshots.md) and [capture provenance](images/README.md).
 
-## Static security checks
+### Static security checks
 
 WordPress Plugin Check 2.1.0 security-category checks against the packaged runtime returned **zero errors** and 14 warnings. All warnings concern direct database access and lack of caching in the plugin-owned ledger/watchdog. These queries are deliberate: state claims and recovery require fresh database state, use prepared parameters/identifiers and do not access WooCommerce order tables directly. This check is not an independent security audit.
 
-## Limits
+### Limits
 
 This is not an independent security audit, a certification, a complete gateway compatibility matrix, or proof of live SIMcloud/supplier delivery. Merchant-owned controlled acceptance remains required before production sales. WordPress.org submission and current applicable service terms/privacy review are separate release/distribution steps.

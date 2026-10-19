@@ -5,7 +5,7 @@ Requires at least: 6.8.3
 Tested up to: 7.1.3
 Requires PHP: 8.2
 Requires Plugins: woocommerce
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ SIMcloud for WooCommerce connects eligible paid WooCommerce orders to the SIMclo
 
 The plugin validates networks, bundles, voucher denominations and meter support, then submits eligible purchases in background jobs. A dedicated fulfilment record protects against repeated payment hooks and concurrent workers. Order completion waits for provider-confirmed delivery. Voucher codes and electricity tokens appear in authorized order details; they are not added to public logs or email bodies.
 
-This is an initial 0.1.0 release. Provider transport is covered by deterministic mocks; see the repository test evidence for the exact WordPress, WooCommerce, PHP and database combinations. Merchants must complete controlled live acceptance with their own account before production sales. No SIMcloud sandbox is claimed.
+Version 0.2.0 is a prerelease. Provider transport is covered by deterministic mocks; see the repository test evidence for the exact WordPress, WooCommerce, PHP and database combinations. Merchants must complete controlled live acceptance with their own account before production sales. No SIMcloud sandbox is claimed.
 
 Supported scope: ZAR, virtual simple prepaid products, quantity one per recipient line, classic checkout, Checkout Blocks and HPOS. Mixed prepaid/other baskets, subscriptions, variable products, bulk orders, automatic refunds and automatic retry of ambiguous submissions are excluded.
 
@@ -36,13 +36,17 @@ Before enabling sales, review the current SIMcloud account terms and privacy inf
 1. Install WooCommerce 10.0.4 or newer on WordPress 6.8.3 or newer with PHP 8.2 or newer and HTTPS.
 2. Upload the tagged release ZIP through Plugins > Add New > Upload Plugin and activate it on the individual site.
 3. Open WooCommerce > SIMcloud. Save the token from your SIMcloud account's API > Get Token screen.
-4. Check the connection, refresh the data/VAS catalogues, and configure automatic payment gateway IDs.
-5. Configure virtual simple products with a service, provider amount, network and catalogue product where needed. Set retail prices separately.
+4. Check the connection, then click Refresh catalogues / import data. Missing data bundles are published automatically using the API amount as the regular retail price. Existing products and prices are preserved.
+5. Review imported data products and configure the other services as virtual simple products. Retail prices remain editable independently of provider amounts. Configure automatic payment gateway IDs.
 6. Review cron, privacy, payment/refund policies and controlled acceptance tests, then explicitly enable live submissions.
 
 Use SIMCLOUD_WC_DISABLE_SUBMISSIONS in wp-config.php to pause fulfilment. Non-production WordPress environments are blocked. Copies/restores must be paused and reconciled before jobs resume.
 
 == Frequently Asked Questions ==
+
+= Can the API populate data products automatically? =
+
+Yes. In WooCommerce > SIMcloud, click Refresh catalogues / import data. Available unambiguous bundles are created as published simple virtual products with their network, provider ID and amount configured. The API amount becomes the initial regular retail price; existing products, prices, drafts and trash are preserved. No prepaid purchase is made by import.
 
 = Can I use my existing payment gateway? =
 
@@ -65,6 +69,10 @@ No. Customer payments and prepaid delivery are separate. Reconcile provider stat
 Saved plugin credentials, settings, catalogue cache and plugin jobs are removed. WooCommerce orders, purchase snapshots and fulfilment evidence are retained. A server-configured token constant must be removed separately.
 
 == Changelog ==
+
+= 0.2.0 =
+
+Import missing data-bundle products from the API catalogue, published at the API amount. Preserve existing merchant products and prices, skip ambiguous mappings and guard concurrent imports.
 
 = 0.1.0 =
 

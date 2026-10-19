@@ -63,6 +63,8 @@ An HTTP `201` response indicates a queued request. Require a successful body wit
 
 Catalogue items currently expose `product_id`, `network`, `network_name`, `description`, `groupname`, `amount`, and `sellvalue`. Data submission selects a bundle by network plus amount/sellvalue. The create contract does not accept a catalogue `product_id` as a substitute.
 
+From v0.2.0, a privileged catalogue refresh imports missing data bundles as published WooCommerce products. Names, groups, networks and IDs come from the catalogue; the exact API amount becomes the initial regular retail price. Existing products and prices are preserved. Invalid or ambiguous mappings are skipped. Import makes no create/purchase request. See [import instructions](data-product-import.md).
+
 Store the selected catalogue item for audit, but submit the documented network and amount. Confirm the mapping still exists before accepting a purchase. If two products cannot be distinguished by the supported create fields, do not offer them as independently selectable products until the ambiguity is resolved. Cache catalogue reads with a visible refresh timestamp; never silently overwrite a merchant's retail price.
 
 ## Status responses

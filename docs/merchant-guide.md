@@ -2,7 +2,7 @@
 
 For first-time setup, follow [installation with screenshots](installation.md) and [four-service product setup](product-setup.md). Use the [FAQ](faq.md), [screenshot gallery](screenshots.md) and [troubleshooting guide](troubleshooting.md) for common questions.
 
-This guide describes version 0.1.0 (prerelease). Start with a staging installation using mocked transport, then arrange a controlled live purchase with your own funded SIMcloud account. The project does not provide a SIMcloud sandbox or test wallet.
+This guide describes version 0.2.0 (prerelease). Start with a staging installation using mocked transport, then arrange a controlled live purchase with your own funded SIMcloud account. The project does not provide a SIMcloud sandbox or test wallet.
 
 ## Installation
 
@@ -22,7 +22,7 @@ Use **Check connection / balance** after saving. It performs a GET, displays the
 
 See [catalogue screenshots](screenshots.md#data-and-vas-catalogue-refresh) and [product configuration examples](product-setup.md).
 
-Use **Refresh catalogues** to load current data and VAS products. Cached results expire after 15 minutes; validation refreshes expired data through the API. The settings tables show product IDs, descriptions and available provider amounts.
+Use **Refresh catalogues / import data** to load current data and VAS products and automatically publish missing data-bundle products at their API amount. Existing merchant products and prices are preserved. See the [automatic product import guide](data-product-import.md). Cached results expire after 15 minutes; validation refreshes expired data through the API. The settings tables show product IDs, descriptions and available provider amounts.
 
 Create a **simple product** and open **Product data → General**:
 

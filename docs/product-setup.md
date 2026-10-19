@@ -1,8 +1,8 @@
 # Set up airtime, data, VAS and electricity products in WooCommerce
 
-Configure each service in **Products → Add new product → Product data → General**. This guide describes **v0.1.0 (prerelease)**. Finish the [installation and connection steps](installation.md) first.
+Configure each service in **Products → Add new product → Product data → General**. This guide describes **v0.2.0 (prerelease)**. Finish the [installation and connection steps](installation.md) first.
 
-The screenshots show real saved WooCommerce product settings with **synthetic provider catalogue data**. Names, IDs, amounts and markups are examples, not current SIMcloud offers or recommended selling prices. Refresh your own catalogue and confirm your commercial terms.
+The manual-configuration screenshots below were captured with v0.1.0 and show real saved WooCommerce product settings with **synthetic provider catalogue data**. Names, IDs, amounts and markups are examples, not current SIMcloud offers or recommended selling prices. Refresh your own catalogue and confirm your commercial terms.
 
 ## Settings shared by all four services
 
@@ -30,7 +30,11 @@ The customer enters a South African mobile number on the product page. The plugi
 
 ## Data bundle product
 
-Click **Refresh catalogues** in SIMcloud settings first. Choose an available data product with the matching network and exact provider amount.
+**Automatic setup:** click **Refresh catalogues / import data** in WooCommerce → SIMcloud. Missing data products are published with network, catalogue ID and provider amount configured, using the API amount as their initial regular retail price. See [automatic import with screenshots](data-product-import.md). Existing products and prices are preserved.
+
+You can still configure a data product manually using the fields below.
+
+Click **Refresh catalogues / import data** in SIMcloud settings first. Choose an available data product with the matching network and exact provider amount.
 
 The local example is **MTN 1GB Data (Demo)**, retail **R27**, network **MTN**, provider amount **R25**, catalogue **`data:7`**. These are synthetic values: they do not establish that this bundle or price is available to your account.
 
