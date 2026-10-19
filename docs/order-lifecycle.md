@@ -1,6 +1,6 @@
 # Order lifecycle and recovery
 
-Status: required implementation behaviour. No fulfilment code exists yet.
+Version 0.1.0 implementation and operator policy.
 
 Each purchased line has its own fulfilment record. Payment state belongs to WooCommerce; recharge state belongs to the plugin. Never use one field to mean both.
 
@@ -14,11 +14,10 @@ Each purchased line has its own fulfilment record. Payment state belongs to WooC
 | `queued` | SIMcloud returned a persisted request ID | Query status using that ID |
 | `pending` | Provider is processing the identified request | Query status within polling limits |
 | `delivered` | Matching provider query confirmed delivery | Terminal; no further submission |
-| `failed` | Validated rejection or identified final failure | Merchant review; no automatic resubmission or refund |
+| `failed` | Identified final provider failure | Merchant review; no automatic resubmission or refund |
 | `needs_review` | Outcome uncertain, evidence inconsistent, or polling window exceeded | Read-only reconciliation and audited staff resolution |
-| `cancelled` | Cancelled before any submission intent | Terminal |
 
-An order is completed only when every prepaid line is confirmed delivered. One delivered item must never be sent again because another line failed. Failed prepaid fulfilment must not erase a received payment or mark the whole financial order unpaid.
+Automatic order completion occurs only when every prepaid line is confirmed delivered. Staff must not manually mark delivery complete while fulfilment is outstanding. One delivered item must never be sent again because another line failed. Failed prepaid fulfilment must not erase a received payment or mark the whole financial order unpaid.
 
 ## Submission sequence
 
@@ -27,7 +26,7 @@ An order is completed only when every prepaid line is confirmed delivered. One d
 3. Recheck eligibility immediately before the network call. If a cancellation or refund has intervened, stop and preserve evidence. A cancellation arriving during the remote call may still require reconciliation.
 4. Submit exactly the saved service, recipient, network, and provider amount.
 5. On a valid `201` acknowledgement, save the request ID before scheduling any status job. Failure to persist after the remote call is an ambiguous outcome.
-6. On a validated explicit rejection, record the reason. On a timeout, crash, unexpected response, or uncertain outcome, enter `needs_review`.
+6. On a create rejection, retain a redacted reason and require review. On a timeout, crash, unexpected response, or uncertain outcome, enter `needs_review`.
 7. Schedule bounded GET queries only for identified provider requests. A poll job never calls a create endpoint.
 
 Repeated payment webhooks, repeated hooks, refreshed browser pages, and concurrent jobs all converge on the same unique purchase row. None authorizes another POST. Recovery of a stuck worker must not reset `submitting` to `ready` automatically.
@@ -45,7 +44,7 @@ Repeated payment webhooks, repeated hooks, refreshed browser pages, and concurre
 | Polling limit reached | Mark review required, keep the ID, permit status refresh, and alert staff |
 | Restore or clone of a store | Pause submissions before jobs resume; reconcile every outstanding attempt against provider records |
 
-Any future resubmission action must require an authorized capability, nonce, an explicit warning showing recipient and amount, evidence that the prior request was not accepted, and an audit note. It must create a separate linked attempt record rather than overwriting the original evidence. This is a release requirement if resubmission UI is included; a first release may instead require support-led recovery without a resubmit button.
+Any future resubmission action must require an authorized capability, nonce, an explicit warning showing recipient and amount, evidence that the prior request was not accepted, and an audit note. It must create a separate linked attempt record rather than overwriting the original evidence. Version 0.1.0 uses support-led recovery and has no resubmit button.
 
 ## Reference design
 

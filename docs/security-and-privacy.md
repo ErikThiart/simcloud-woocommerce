@@ -1,10 +1,10 @@
 # Security and privacy requirements
 
-Status: implementation requirements, not a completed security assessment. No published version is supported yet.
+Version 0.1.0 security design and implementation limits. This is not an independent security assessment.
 
 ## Credentials and transport
 
-- Store API tokens server-side in a non-autoloaded WordPress option, with a configuration-constant override for managed installations. Confirm the final configuration name in the implementation guide.
+- Store API tokens server-side in a non-autoloaded WordPress option, with a configuration-constant override for managed installations. The server override is `SIMCLOUD_WC_API_TOKEN`; see the merchant guide.
 - Mask the settings display. A blank unchanged form must not erase or reveal the existing token; replacement and removal are explicit actions.
 - Use an appropriately privileged capability and nonce for settings, catalogue refresh, connection checks, status refresh, and recovery actions. A nonce alone is not authorization.
 - Use WordPress HTTP APIs, verified TLS, a fixed SIMcloud HTTPS host, an endpoint allowlist, explicit timeouts, and no authenticated redirects. Do not offer an arbitrary production base-URL setting.
@@ -31,18 +31,25 @@ The balance endpoint also returns merchant identity fields. Consume only the fie
 
 ## External service disclosure
 
-The plugin will send the recipient number, chosen network, denomination/bundle amount, and a correlation reference to SIMcloud for lookup or fulfilment as appropriate. The store owner must see and enable this integration deliberately. Customer-facing privacy text must explain this transfer and link to current applicable provider terms and privacy information, verified before release.
+The plugin sends the recipient number, chosen network, denomination/bundle amount, and a correlation reference to SIMcloud for lookup or fulfilment as appropriate. The store owner must see and enable this integration deliberately. Customer-facing privacy text must explain this transfer and link to current applicable provider terms and privacy information, verified before release.
 
 Payment-card handling remains with the merchant's gateway. The integration must not send card data, full customer profiles, WooCommerce passwords, or unrelated order contents to SIMcloud. Do not add analytics, marketing tracking, remote executable code, or mandatory frontend credit links.
 
 ## Retention and lifecycle
 
-Integrate with WordPress privacy exporter/eraser facilities and document which records must remain for unresolved orders or accounting obligations. Do not make a universal legal retention claim. The merchant selects a retention policy suitable for their operation and applicable obligations.
+The exporter includes prepaid purchase details. The eraser deliberately reports retained records instead of deleting purchase snapshots or redeemable codes automatically; staff must resolve delivery and applicable retention obligations before manual removal. Do not make a universal legal retention claim. The merchant selects a retention policy suitable for their operation and applicable obligations.
 
-Logs require a documented bounded retention period. Deactivation must pause new submissions and stop plugin-owned jobs; reactivation requires safe reconciliation. Uninstall preserves WooCommerce orders and fulfilment evidence by default. Removal of credentials and any optional irreversible cleanup must be explicit and documented.
+The plugin uses the WooCommerce logger and its configured retention policy. Review that policy in WooCommerce settings. Deactivation must pause new submissions and stop plugin-owned jobs; reactivation requires safe reconciliation. Uninstall preserves WooCommerce orders and fulfilment evidence by default. Removal of credentials and any optional irreversible cleanup must be explicit and documented.
 
 ## Recovery and incident handling
 
 Use the [lifecycle policy](order-lifecycle.md) for ambiguous submissions. Restore/clone protection is mandatory: copied sites must not replay fulfilment with live credentials. Replacing an API token does not resolve the state of earlier provider requests.
 
 Security reports must use the private channel described in [SECURITY.md](../SECURITY.md). Never request a reporter's real API token or customer database. Before any release, review authorization, CSRF, recipient disclosure, log redaction, SSRF, purchase tampering, concurrency, and backup/restore behaviour with recorded results.
+
+
+## Redeemable codes and guest access
+
+Voucher codes and electricity pins live in the plugin ledger result column rather than generic order item metadata. Authorized customer/staff views escape every value; email bodies contain a private order link rather than the codes. Guest links use WooCommerce order keys as bearer credentials. Sharing the link grants access to the order and its codes. Database backups remain sensitive.
+
+Current site binding detects URL changes, not a historical database restore at the same URL. Operators must pause before restore/clone and reconcile provider state before enabling again. This limitation cannot be removed by claiming a local lock provides remote exactly-once semantics.

@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-There are no released or supported plugin versions yet. The repository is in the planning stage. This policy also covers sensitive information accidentally exposed in project files.
+Version 0.1.x is the current initial release line. Report issues against the latest published commit/release. Live production acceptance remains a separate merchant responsibility. This policy also covers sensitive information accidentally exposed in project files.
 
 ## Report privately
 

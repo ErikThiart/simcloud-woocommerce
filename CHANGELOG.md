@@ -1,14 +1,21 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 — 19 October 2026
 
-### Project foundation — 19 October 2026
+Initial implementation for WooCommerce:
 
-- Established the proposed WooCommerce airtime/data product scope and merchant workflow.
-- Documented the current SIMcloud API contract and submission/reconciliation limitations.
-- Specified payment eligibility, immutable purchase snapshots, atomic local submission guards, polling, and safe recovery.
-- Added security/privacy requirements, acceptance scenarios, release gates, and a staged roadmap.
-- Added contribution, support, security-reporting, issue, and pull-request guidance.
-- Added GPL-2.0-or-later licensing and automated documentation checks.
+- Airtime and data fulfilment with network validation and catalogue-backed bundle mapping.
+- VAS catalogue products/denominations and restricted redeemable voucher delivery.
+- Electricity whole-rand validation, meter support checks and restricted token/units delivery.
+- Server-only token configuration, wallet diagnostics, catalogue refresh and explicit live enablement/site binding.
+- Separate retail/provider values, per-line recipient snapshots, classic checkout and Checkout Blocks Store API integration.
+- HPOS order APIs, persistent atomic submission claims, bounded background polling and interrupted-attempt review.
+- Explicit gateway eligibility, audited staff funds confirmation and read-only provider status refresh.
+- Privacy exporter/retention reporting and safe deactivation/reactivation/uninstall.
+- Real WordPress/WooCommerce database tests with synthetic transport, concurrent-process verification, PHP compatibility CI and deterministic ZIP packaging.
 
-There is no plugin implementation or installable release in this entry.
+Initial prerelease. No live paid provider acceptance or directory approval is claimed. See [verification](docs/verification.md).
+
+## Project foundation — 19 October 2026
+
+Established the public repository, GPL-2.0-or-later license, API research, specification, contributor guidance, private security-reporting policy and documentation checks.

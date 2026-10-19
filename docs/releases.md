@@ -1,33 +1,32 @@
 # Release process
 
-No release exists. The repository currently checks documentation only. This checklist governs the future first installable build and stable release.
+## Reproduce the package
 
-## Before an alpha
+```sh
+python3 scripts/check_docs.py
+bash scripts/test.sh
+python3 scripts/package.py
+```
 
-1. Implement the approved airtime/data baseline, dependency checks, protected settings, product mapping, both checkout paths, durable fulfilment records, and status queries.
-2. Choose and test minimum supported runtime versions. Plugin headers must reflect actual evidence, including PHP 8.5 coverage.
-3. Add meaningful PHP syntax, coding-standard, unit, integration, concurrency, and checkout checks. A green documentation workflow is not a plugin test result.
-4. Provide reproducible local setup, mocked transport instructions, a development `readme.txt`, configuration references, and safe packaging.
-5. Implement migrations and deactivation/reactivation/uninstall behaviour. Verify upgrades preserve customer orders and provider IDs.
+Tests require the isolated setup described in [testing](testing.md). The builder emits `dist/simcloud-woocommerce-0.1.0.zip` and a SHA-256 file. Its explicit allowlist includes the bootstrap, uninstall file, includes, assets/translations, WordPress readme and license. Tests, fixtures, repository metadata, credentials, development scripts, logs and private operational files are excluded.
 
-## Before a stable release
+ZIP paths have one `simcloud-woocommerce/` root. Timestamps and permissions are fixed so unchanged inputs produce the same bytes. Install the exact ZIP on a clean WordPress site before publishing it.
 
-Complete the [acceptance matrix](testing.md), security review, and controlled provider test. Resolve every scenario that could cause an unguarded repeat submission or a false delivery confirmation. Record any remaining limitations in the release notes and merchant guide.
+## Release gates
 
-Prepare verified installation/configuration instructions, screenshots without real customer data, payment-method policy, cron instructions, privacy text, troubleshooting, support boundaries, and rollback instructions. No placeholder compatibility claim or unfinished safety-critical feature is acceptable.
+1. Run the automated PHP/database/checkout/concurrency/lifecycle suite and documentation checks.
+2. Run WordPress Plugin Check against runtime files; inspect findings and distinguish expected direct ledger queries from actual vulnerabilities.
+3. Check credential/customer-data exclusion and inspect the ZIP manifest.
+4. Test clean installation and reinstallation/activation with existing fulfilment evidence.
+5. Update version headers, WordPress readme, changelog, merchant instructions and verification evidence together.
+6. Commit and push scoped changes, wait for the exact commit's CI matrix, then tag and publish the reviewed ZIP/checksum as a GitHub release.
 
-## Packaging and publication
-
-- Use semantic versions. Keep plugin header, package version, WordPress readme stable tag, and changelog consistent.
-- Build a ZIP with one `simcloud-woocommerce/` root containing runtime files, required assets/translations, license, and readme. Exclude tests, fixtures, credentials, logs, development dependencies, `.git`, and internal operational records.
-- Install the exact ZIP on a clean test site and exercise upgrade from the previous supported release. Publish checksums with the artifact.
-- Create a Git tag and GitHub release only after all gates pass. Label alpha/beta builds as prereleases with clear testing limitations.
-- Consider WordPress.org submission after a complete plugin is available. GitHub publication alone does not mean WordPress.org or WooCommerce Marketplace approval.
-
-WordPress.org distribution requires its own review and service disclosure. The project uses GPL-2.0-or-later and must keep bundled dependencies compatible. Follow the [official plugin guidelines](https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/) at submission time.
+Version 0.1.0 is an initial prerelease pending merchant-owned live provider acceptance. Do not label mock-provider evidence as live delivery. A stable production recommendation requires the controlled four-service checks described in [testing](testing.md).
 
 ## Rollback and maintenance
 
-Pause new submissions before rollback. Preserve and reconcile already-submitted requests and pending jobs; rolling back PHP files does not reverse prepaid delivery. Migrations should avoid destructive changes and document compatibility with the prior version. Never restore an old database and allow it to replay fulfilment automatically.
+Pause submissions before rollback. Preserve and reconcile existing provider IDs, fulfilment rows, purchase snapshots and queued work. Rolling back PHP does not reverse delivered prepaid value. Never restore an older database and allow it to replay jobs without reconciliation.
 
-Publish a clear supported-version policy with the first release. Security fixes require an advisory and upgrade instructions. Keep API research, compatibility evidence, and merchant documentation current whenever an endpoint or supported runtime changes.
+Schema migrations must be versioned and preserve the unique purchase key and irreversible-attempt evidence. Deactivation/reactivation/uninstall are tested to preserve records and keep fulfilment disabled until deliberately enabled.
+
+No WordPress.org or WooCommerce Marketplace listing is implied by GitHub publication. Follow the [official plugin guidelines](https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/) if submitting a future build. Publish security advisories and supported-version changes alongside any affected release.

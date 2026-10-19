@@ -56,7 +56,7 @@ An HTTP `201` response indicates a queued request. Require a successful body wit
 
 ## Data catalogue and request
 
-Catalogue items currently expose `id`, `network`, `network_name`, `description`, `groupname`, `amount`, and `sellvalue`. Data submission selects a bundle by network plus amount/sellvalue. The create contract does not accept a catalogue `product_id` as a substitute.
+Catalogue items currently expose `product_id`, `network`, `network_name`, `description`, `groupname`, `amount`, and `sellvalue`. Data submission selects a bundle by network plus amount/sellvalue. The create contract does not accept a catalogue `product_id` as a substitute.
 
 Store the selected catalogue item for audit, but submit the documented network and amount. Confirm the mapping still exists before accepting a purchase. If two products cannot be distinguished by the supported create fields, do not offer them as independently selectable products until the ambiguity is resolved. Cache catalogue reads with a visible refresh timestamp; never silently overwrite a merchant's retail price.
 
@@ -89,3 +89,22 @@ The OpenAPI document describes a five-minute same-number-and-amount duplicate ru
 5. Balance is a last-known value with a timestamp, not a reservation. A balance check cannot guarantee a subsequent purchase will succeed.
 
 A future provider change could add account-scoped idempotent submission and reference lookup that includes queued requests. That would reduce reconciliation work but requires a separate SIMcloud API change. This repository does not change the backend API or claim that capability exists.
+
+
+## VAS vouchers (implemented)
+
+`GET /api/vas.php` returns `products` with `product_id`, `voucher_type`, `slug`, `default_amount`, and `available_amounts`. Configuration and purchase checks require an exact product ID and an available denomination. Submit `product_id`, `amount`, and an opaque `reference` through POST. A valid `201` returns `order_id`, `transaction_id`, product/amount/reference, `process_status` and billing/fee fields.
+
+Query with `order_id` or `transaction_id`. Top-level `pending` means processing; `failed` is terminal failure; `success` requires `vouchers`. Each voucher includes `voucher_type`, `voucher_code`, nullable `value` and `expiry_date`. The plugin verifies purchase identity and requires nonempty redeemable codes before delivery. It stores normalized codes/descriptions/expiry only in its restricted ledger; raw provider bodies are not retained. No merchant-reference lookup or durable idempotency is assumed for VAS.
+
+## Electricity (implemented)
+
+`GET /api/electricity.php?meter_number=...` checks support. Require the matching meter and `supported: true`; null/unknown/internal-error responses cannot authorize purchase. The plugin validates a 1–50 character alphanumeric meter locally.
+
+POST fields are `meter_number`, whole-rand `amount` (R55–R1000), `client_reference`, `recipient`, and `send_sms: false`. The provider amount includes the SIMcloud fee. This plugin delivers tokens through the order page instead of requesting provider SMS. It does not claim the total becomes electricity units.
+
+A valid `201` contains positive `order_id`, `submitted_reference`, transformed `client_reference`, matching meter/recipient/amount, and fee/electricity allocation fields. SIMcloud appends a timestamp suffix to the submitted reference; preserve the returned reference. Do not assume the original reference can be queried unchanged.
+
+Query using `order_id` (never include `meter_number` in a status query because that selects meter validation). A pending response may contain only `status` and `message`. Final `success` includes `transaction_details` and `recharge_pin_information`; require matching meter/recipient and nonempty pin entries before delivery. Normalize descriptor, pin and units. Multiple entries, including key-change tokens, are retained in order. Final transaction amount is not compared with gross provider amount because provider fees can reduce the electricity allocation.
+
+Known ambiguous POST outcomes for every service require reconciliation; this plugin never repeats them automatically. The source review and contract are not live paid delivery evidence.

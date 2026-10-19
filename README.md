@@ -1,82 +1,79 @@
 # SIMcloud for WooCommerce
 
-Sell South African prepaid airtime and data through a WooCommerce store, with fulfilment through the [SIMcloud API](https://simcloud.co.za/api/).
+Sell South African **airtime, data bundles, VAS vouchers and prepaid electricity** through WooCommerce using the [SIMcloud API](https://simcloud.co.za/api/).
 
-**Project status: planning and specification. There is no installable plugin or production release yet.** This repository currently contains the implementation plan, integration research, merchant workflow, and contribution guidelines. Features described as planned are not available functionality.
-
+[![Plugin tests](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml/badge.svg)](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/plugin.yml)
 [![Documentation](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/docs.yml/badge.svg)](https://github.com/ErikThiart/simcloud-woocommerce/actions/workflows/docs.yml)
 [![License: GPL v2 or later](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 
-## What we are building
+**Version 0.1.0 — initial release.** The plugin is implemented and installable. Automated tests use a real WordPress/WooCommerce database and intercepted SIMcloud HTTP responses. They do not establish live supplier delivery. Complete a controlled acceptance purchase with your own SIMcloud account before production sales. See [verification evidence](docs/verification.md).
 
-A store owner connects their own funded SIMcloud account, configures prepaid products and retail prices, and accepts payment through their existing WooCommerce payment gateway. The customer supplies a recipient number and buys a product. After payment confirmation, the plugin submits the recharge and tracks its delivery.
+## Features
 
-The plugin will be open source under **GPL-2.0-or-later**. SIMcloud remains an external commercial service: merchants need an account, API access, and sufficient wallet funds. The plugin license does not make airtime, data, payment processing, or SIMcloud services free.
-
-## Planned scope
-
-| Capability | First release | Later work |
+| Service | Configuration | Customer delivery |
 | --- | --- | --- |
-| Airtime for MTN, Vodacom, Cell C, and Telkom | Planned | |
-| Data bundles from the SIMcloud catalogue | Planned | |
-| WooCommerce checkout and existing payment gateways | Planned | |
-| Recipient validation and network lookup | Planned | |
-| Background fulfilment and delivery tracking | Planned | |
-| Merchant diagnostics and reconciliation tools | Planned | |
-| Classic checkout, Checkout Blocks, and HPOS | Required before stable release | |
-| VAS / retail vouchers | | Proposed |
-| Prepaid electricity | | Proposed |
-| SMS services | | Requires a separate product decision |
+| Airtime | Network and denomination, R2–R999 | Recharge to a validated South African mobile number |
+| Data | Current catalogue product, network and provider amount | Selected bundle to the validated recipient |
+| VAS | Current catalogue product and available denomination | Redeemable voucher code(s) in authorized order details |
+| Electricity | Whole-rand provider amount, R55–R1000 | Meter validation, then token(s) and units in order details |
 
-Read the [product specification](docs/product-specification.md) for the exact first-release boundary and the [roadmap](docs/roadmap.md) for acceptance gates.
+The plugin provides protected API-token settings, connection/balance diagnostics, data/VAS catalogue refresh, recipient and meter input, classic checkout, Checkout Blocks/Store API integration, HPOS-compatible order access, Action Scheduler jobs, a persistent line-level fulfilment ledger, bounded status polling, staff status refresh, and privacy exporter/retention reporting.
 
-## How an order will work
+Retail prices, tax and coupons stay separate from provider denominations. Duplicate hooks and concurrent workers converge on an atomic local submission claim. A queued request does not complete the WooCommerce order: all purchased lines must have matching confirmed delivery, including redeemable codes for VAS/electricity.
 
-1. The customer selects a configured airtime denomination or data bundle.
-2. The customer enters and confirms the South African recipient number.
-3. WooCommerce processes payment using the merchant's configured gateway.
-4. A background job submits the purchased product to SIMcloud once the order is eligible.
-5. The plugin saves SIMcloud's request ID and queries its delivery status.
-6. The customer sees the result; exceptions appear in the merchant's order view.
+## Requirements
 
-Payment receipt and recharge delivery are separate events. A queued API response does not mean airtime or data has been delivered.
+- WordPress 6.8.3+, WooCommerce 10.0.4+, PHP 8.2+, HTTPS, and a working WordPress/Action Scheduler runner.
+- A ZAR store, virtual simple prepaid products, quantity one per recipient line.
+- Your own SIMcloud account, API token and sufficient wallet funds.
+- A payment gateway that confirms payment through WooCommerce, explicitly allowed in plugin settings, or staff confirmation of actually received funds.
 
-## Integration constraint to understand first
+The initial scope excludes mixed prepaid/other baskets, variable products, subscriptions, network-wide activation, multi-currency, bulk imports, customer wallets, automatic refunds and repeat submissions. Supported version combinations and their evidence are in [testing](docs/testing.md).
 
-The current airtime/data API returns a request ID after submission. It does not document a durable idempotency key or a direct lookup by merchant reference. A timed-out submission can therefore have an unknown outcome. The design sends such orders for reconciliation and **does not automatically submit them again**. See [order lifecycle and recovery](docs/order-lifecycle.md).
+## Install and configure
+
+1. Download the installable ZIP from [GitHub Releases](https://github.com/ErikThiart/simcloud-woocommerce/releases). Upload it through **Plugins → Add New → Upload Plugin**, then activate it on the individual site.
+2. Open **WooCommerce → SIMcloud**. Save the token from your SIMcloud account's **API → Get Token** screen. Run **Check connection / balance**.
+3. Refresh catalogues. In each simple product's **Product data → General** section, configure SIMcloud service, provider amount, network and catalogue product where applicable. Set the WooCommerce retail price separately.
+4. Configure allowed payment gateway IDs, cron, privacy and store support/refund policies. Submissions start disabled; enable them deliberately after acceptance checks.
+
+Read the [merchant guide](docs/merchant-guide.md) for setup, payment handling, operations and recovery. Voucher codes and electricity tokens appear on the authorized order page; emails link to it without embedding the codes.
+
+## Submission recovery
+
+The current airtime/data and VAS contracts do not guarantee durable idempotent creation or lookup by the merchant reference. A POST can be accepted even when its response is lost. Such purchases go to **needs review** without an automatic second POST. Staff can refresh identified provider requests; unidentified outcomes require private SIMcloud reconciliation. There is no resubmit button in this release.
+
+A refund does not reverse prepaid delivery. A balance check does not reserve funds. Read [order lifecycle and recovery](docs/order-lifecycle.md) before operating a live store.
 
 ## Documentation
 
-| Audience | Start here |
+| Audience | Documentation |
 | --- | --- |
-| Store owners | [Merchant guide](docs/merchant-guide.md) |
-| Product reviewers | [Product specification](docs/product-specification.md) and [roadmap](docs/roadmap.md) |
-| Developers | [Architecture](docs/architecture.md) and [API contract](docs/api-contract.md) |
-| Operators | [Order lifecycle](docs/order-lifecycle.md) and [security and privacy](docs/security-and-privacy.md) |
-| Testers and release maintainers | [Testing](docs/testing.md) and [release process](docs/releases.md) |
-| Contributors | [Contributing](CONTRIBUTING.md), [support](SUPPORT.md), and [security reporting](SECURITY.md) |
-| Research and decisions | [Sources and verification](docs/sources.md) |
+| Merchants | [Merchant guide](docs/merchant-guide.md), [support](SUPPORT.md) |
+| Developers | [Product specification](docs/product-specification.md), [architecture](docs/architecture.md), [API contract](docs/api-contract.md) |
+| Operators | [Lifecycle and recovery](docs/order-lifecycle.md), [security and privacy](docs/security-and-privacy.md) |
+| Testers | [Test setup and matrix](docs/testing.md), [verification evidence](docs/verification.md) |
+| Maintainers | [Release process](docs/releases.md), [roadmap](docs/roadmap.md), [contributing](CONTRIBUTING.md), [security reporting](SECURITY.md) |
+| Reference | [Sources](docs/sources.md), [changelog](CHANGELOG.md) |
 
-## Development
-
-There is no application build or plugin ZIP at this stage. To review the documentation locally:
+## Development and packaging
 
 ```sh
 git clone https://github.com/ErikThiart/simcloud-woocommerce.git
 cd simcloud-woocommerce
 python3 scripts/check_docs.py
+# Requires an isolated local MySQL/MariaDB server; see docs/testing.md.
+bash scripts/setup-tests.sh
+bash scripts/test.sh
+python3 scripts/package.py
 ```
 
-The initial implementation will use procedural PHP, WordPress APIs, WooCommerce order APIs, and WooCommerce's Action Scheduler. Compatibility version numbers will be set from an actual tested matrix before the first installable release. PHP 8.5 compatibility is a project requirement; it has not yet been demonstrated by a plugin build.
+The package builder uses an explicit runtime allowlist and produces a deterministic ZIP and SHA-256 checksum under `dist/`. Development tests, credentials and logs are excluded. Application code is procedural PHP using native WordPress, WooCommerce and Action Scheduler APIs.
 
-## Contributing and support
-
-Use [GitHub Issues](https://github.com/ErikThiart/simcloud-woocommerce/issues) for reproducible bugs and scoped feature proposals. Do not publish API tokens, customer phone numbers, payment details, or unredacted logs. See [SUPPORT.md](SUPPORT.md) for the difference between plugin support and account/order support.
-
-## License
+## Open source and commercial service
 
 Copyright (C) 2026 Erik Thiart and contributors. SPDX license identifier: `GPL-2.0-or-later`.
 
-This project is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. Project material uses these terms unless a file states otherwise. The project is distributed without any warranty; see [LICENSE](LICENSE) for the complete license text.
+This project is free software: you can redistribute it and/or modify it under the GNU General Public License published by the Free Software Foundation, version 2 or, at your option, any later version. It is distributed without warranty. See [LICENSE](LICENSE).
 
-WordPress and WooCommerce are the names of their respective projects; this project does not claim endorsement by either.
+The plugin license does not include prepaid value, SIMcloud account services, payment processing or a support contract. WordPress and WooCommerce are the names of their respective projects; no endorsement or directory approval is claimed.

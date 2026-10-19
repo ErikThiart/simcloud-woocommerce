@@ -1,0 +1,421 @@
+# Copyright (C) 2026 Erik Thiart
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: SIMcloud for WooCommerce 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/simcloud-woocommerce\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-19T14:06:18+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: simcloud-woocommerce\n"
+
+#. Plugin Name of the plugin
+#: simcloud-woocommerce.php
+msgid "SIMcloud for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: simcloud-woocommerce.php
+msgid "https://github.com/ErikThiart/simcloud-woocommerce"
+msgstr ""
+
+#. Description of the plugin
+#: simcloud-woocommerce.php
+msgid "Sell South African airtime, data, VAS vouchers and prepaid electricity through SIMcloud."
+msgstr ""
+
+#. Author of the plugin
+#: simcloud-woocommerce.php
+msgid "Erik Thiart"
+msgstr ""
+
+#: includes/api.php:19
+msgid "Unsupported SIMcloud operation."
+msgstr ""
+
+#: includes/api.php:22
+msgid "Configure the SIMcloud API token first."
+msgstr ""
+
+#: includes/api.php:36
+msgid "SIMcloud connection failed; the outcome may be unknown."
+msgstr ""
+
+#. translators: %d: HTTP response status code.
+#: includes/api.php:45
+#, php-format
+msgid "SIMcloud returned HTTP %d or an invalid response. Check the merchant account."
+msgstr ""
+
+#: includes/api.php:91
+msgid "Unsupported catalogue."
+msgstr ""
+
+#: includes/api.php:104
+msgid "SIMcloud catalogue is unavailable."
+msgstr ""
+
+#: includes/cart.php:11
+msgid "Recipient mobile number"
+msgstr ""
+
+#: includes/cart.php:12
+msgid "Confirm the number carefully. Delivered prepaid value cannot be reversed."
+msgstr ""
+
+#: includes/cart.php:15
+msgid "Electricity meter number"
+msgstr ""
+
+#: includes/cart.php:16
+msgid "The configured provider amount includes the SIMcloud electricity fee. Retail price may differ. Tokens will appear in your order details."
+msgstr ""
+
+#: includes/cart.php:19
+msgid "Your voucher code will appear in your order details after confirmed fulfilment."
+msgstr ""
+
+#: includes/cart.php:31
+msgid "SIMcloud products require ZAR checkout."
+msgstr ""
+
+#: includes/cart.php:36
+msgid "Enter a valid South African mobile number."
+msgstr ""
+
+#: includes/cart.php:44
+msgid "The recipient network could not be confirmed for this product. Check the number and selected network."
+msgstr ""
+
+#: includes/cart.php:51
+msgid "Enter a valid electricity meter number."
+msgstr ""
+
+#: includes/cart.php:55
+msgid "Meter support could not be confirmed. Check the meter or try again later."
+msgstr ""
+
+#: includes/cart.php:74
+msgid "This prepaid purchase is unavailable or has an invalid quantity."
+msgstr ""
+
+#: includes/cart.php:93
+msgid "Recipient"
+msgstr ""
+
+#: includes/cart.php:93
+msgid "Meter"
+msgstr ""
+
+#: includes/cart.php:115
+msgid "A prepaid line is unavailable or invalid. Remove it and choose the product again."
+msgstr ""
+
+#: includes/cart.php:119
+msgid "Purchase prepaid products separately from other products."
+msgstr ""
+
+#: includes/cart.php:136
+msgid "Each prepaid line must have quantity one."
+msgstr ""
+
+#: includes/fulfilment.php:25
+msgid "SIMcloud could not persist the fulfilment record. No recharge was submitted."
+msgstr ""
+
+#. translators: 1: WooCommerce item ID, 2: redacted review reason.
+#: includes/fulfilment.php:78
+#, php-format
+msgid "SIMcloud item %1$d needs review: %2$s"
+msgstr ""
+
+#. translators: 1: WooCommerce item ID, 2: delivery state, 3: provider request ID.
+#: includes/fulfilment.php:236
+#, php-format
+msgid "SIMcloud item %1$d: %2$s (provider request %3$d)."
+msgstr ""
+
+#: includes/fulfilment.php:246
+msgid "All SIMcloud items have confirmed delivery. Voucher/token details are available in the order."
+msgstr ""
+
+#: includes/orders.php:23
+msgid "Prepaid fulfilment"
+msgstr ""
+
+#: includes/orders.php:27
+msgid "Prepaid item"
+msgstr ""
+
+#: includes/orders.php:27
+msgid "Status: "
+msgstr ""
+
+#: includes/orders.php:28
+msgid "Recipient: "
+msgstr ""
+
+#: includes/orders.php:28
+msgid "Meter: "
+msgstr ""
+
+#: includes/orders.php:38
+msgid "units"
+msgstr ""
+
+#: includes/orders.php:41
+msgid "Expiry: "
+msgstr ""
+
+#. translators: 1: opaque purchase reference, 2: provider ID, 3: UTC timestamp.
+#: includes/orders.php:48
+#, php-format
+msgid "Local reference: %1$s | Provider ID: %2$d | Last update: %3$s UTC"
+msgstr ""
+
+#: includes/orders.php:50
+msgid "Please contact the store about this purchase. Do not place a duplicate order while delivery is being investigated."
+msgstr ""
+
+#: includes/orders.php:63
+msgid "SIMcloud: confirm received funds and queue"
+msgstr ""
+
+#: includes/orders.php:64
+msgid "SIMcloud: refresh identified provider requests"
+msgstr ""
+
+#. translators: %d: staff WordPress user ID.
+#: includes/orders.php:83
+#, php-format
+msgid "SIMcloud funds explicitly confirmed by staff user %d."
+msgstr ""
+
+#. translators: %d: staff WordPress user ID.
+#: includes/orders.php:97
+#, php-format
+msgid "SIMcloud read-only status refresh requested by staff user %d. No previous submission is repeated."
+msgstr ""
+
+#: includes/orders.php:104
+msgid "Payment and prepaid delivery are separate. View this order securely for current delivery status and any voucher codes or electricity tokens."
+msgstr ""
+
+#: includes/orders.php:108
+msgid "View order"
+msgstr ""
+
+#: includes/privacy.php:6
+msgid "<p>When you purchase prepaid products, we send the chosen network, prepaid amount or product, a purchase reference, and (where applicable) your recipient number and electricity meter number to SIMcloud for validation and fulfilment. Voucher codes and electricity tokens are stored with restricted order records. Payment details are handled by our payment gateway and are not sent to SIMcloud by this plugin. Contact this store about delivery and refunds. Store administrators should add verified SIMcloud terms/privacy links and their chosen order-retention period to this notice.</p>"
+msgstr ""
+
+#: includes/privacy.php:27
+msgid "SIMcloud purchases"
+msgstr ""
+
+#: includes/privacy.php:38
+msgid "Prepaid purchase records were retained for reconciliation. Review unresolved delivery and your accounting retention obligations before deleting order snapshots or redeemable codes."
+msgstr ""
+
+#: includes/products.php:12
+msgid "Select a valid SIMcloud service and provider amount."
+msgstr ""
+
+#: includes/products.php:15
+msgid "Airtime must be between R2 and R999."
+msgstr ""
+
+#: includes/products.php:18
+msgid "Electricity must be whole rand between R55 and R1000."
+msgstr ""
+
+#: includes/products.php:21
+msgid "Select a supported mobile network."
+msgstr ""
+
+#: includes/products.php:47
+msgid "The selected bundle or voucher denomination is unavailable or ambiguous. Refresh the catalogue and update the product."
+msgstr ""
+
+#: includes/products.php:56
+msgid "SIMcloud prepaid fulfilment"
+msgstr ""
+
+#: includes/products.php:57
+msgid "Service"
+msgstr ""
+
+#: includes/products.php:58
+msgid "Not a prepaid product"
+msgstr ""
+
+#: includes/products.php:59
+msgid "Mobile network"
+msgstr ""
+
+#: includes/products.php:61
+msgid "Provider amount (ZAR)"
+msgstr ""
+
+#: includes/products.php:62
+msgid "Face value/bundle amount, independent of retail price, tax and coupons. Electricity includes the SIMcloud fee."
+msgstr ""
+
+#: includes/products.php:63
+msgid "Choose for data / VAS"
+msgstr ""
+
+#: includes/products.php:77
+msgid "refresh catalogue"
+msgstr ""
+
+#: includes/products.php:79
+msgid "Catalogue product"
+msgstr ""
+
+#: includes/products.php:80
+msgid "Refresh catalogues in WooCommerce → SIMcloud. For VAS, enter an available denomination above."
+msgstr ""
+
+#: includes/products.php:102
+msgid "SIMcloud requires a simple product."
+msgstr ""
+
+#: includes/products.php:127
+msgid "Choose prepaid details"
+msgstr ""
+
+#: includes/settings.php:10
+msgid "SIMcloud submissions are paused. Check the API token, authentication, environment and site binding in WooCommerce → SIMcloud."
+msgstr ""
+
+#: includes/settings.php:16
+msgid "You cannot manage SIMcloud."
+msgstr ""
+
+#: includes/settings.php:25
+msgid "Airtime, data, VAS vouchers and prepaid electricity. Each merchant uses their own funded SIMcloud account."
+msgstr ""
+
+#: includes/settings.php:33
+msgid "Replace API token"
+msgstr ""
+
+#: includes/settings.php:35
+msgid "Token is managed by SIMCLOUD_WC_API_TOKEN in server configuration."
+msgstr ""
+
+#: includes/settings.php:37
+msgid "Token configured. Leave blank to keep it."
+msgstr ""
+
+#: includes/settings.php:37
+msgid "No token configured."
+msgstr ""
+
+#: includes/settings.php:38
+msgid "Remove saved token"
+msgstr ""
+
+#: includes/settings.php:40
+msgid "Automatic payment gateways"
+msgstr ""
+
+#: includes/settings.php:40
+msgid "Comma-separated gateway IDs. Only payment_complete from these gateways can authorize automatic fulfilment. COD, BACS and cheque are excluded. Use the order action to confirm funds manually."
+msgstr ""
+
+#: includes/settings.php:42
+msgid "Installed IDs: "
+msgstr ""
+
+#: includes/settings.php:42
+msgid "Live submissions"
+msgstr ""
+
+#: includes/settings.php:42
+msgid "Enable this site to spend my SIMcloud wallet after confirmed payment."
+msgstr ""
+
+#: includes/settings.php:42
+msgid "Saving this choice binds fulfilment to the current site URL. Staging/development environments and SIMCLOUD_WC_DISABLE_SUBMISSIONS block submissions. Pause before backups, restores or cloning."
+msgstr ""
+
+#: includes/settings.php:43
+msgid "Save settings"
+msgstr ""
+
+#: includes/settings.php:44
+msgid "Check connection / balance"
+msgstr ""
+
+#: includes/settings.php:44
+msgid "Refresh catalogues"
+msgstr ""
+
+#. translators: 1: ZAR amount, 2: UTC timestamp.
+#: includes/settings.php:48
+#, php-format
+msgid "Last known wallet balance: R%1$s. Checked %2$s UTC. This is not a funds reservation."
+msgstr ""
+
+#: includes/settings.php:54
+msgid "Refresh to load the current catalogue. Cache lifetime: 15 minutes."
+msgstr ""
+
+#. translators: %s: UTC timestamp.
+#: includes/settings.php:58
+#, php-format
+msgid "Refreshed %s UTC"
+msgstr ""
+
+#. translators: %s: UTC timestamp.
+#: includes/settings.php:58
+msgid "Product"
+msgstr ""
+
+#. translators: %s: UTC timestamp.
+#: includes/settings.php:58
+msgid "Provider amounts (ZAR)"
+msgstr ""
+
+#: includes/settings.php:68
+msgid "Merchant documentation"
+msgstr ""
+
+#: includes/settings.php:74
+msgid "Unknown operation."
+msgstr ""
+
+#: includes/settings.php:93
+msgid "Settings saved. Run the connection check before taking orders."
+msgstr ""
+
+#: includes/settings.php:99
+msgid "Connection verified. No purchase was submitted."
+msgstr ""
+
+#: includes/settings.php:101
+msgid "Balance response was invalid."
+msgstr ""
+
+#: includes/settings.php:106
+msgid "A catalogue could not be refreshed. Check authentication and try again."
+msgstr ""
+
+#: includes/settings.php:106
+msgid "Data and VAS catalogues refreshed. Retail prices and historical purchases were preserved."
+msgstr ""
+
+#: includes/storage.php:43
+msgid "Activate SIMcloud separately on each site. Network activation is not supported."
+msgstr ""
+
+#: simcloud-woocommerce.php:36
+msgid "SIMcloud requires WooCommerce 10.0.4 or newer."
+msgstr ""

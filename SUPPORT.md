@@ -2,7 +2,7 @@
 
 ## Current project status
 
-The project is in planning. There is no installable plugin, stable release, or compatibility guarantee. See the [roadmap](docs/roadmap.md) for planned work.
+Version 0.1.0 is an initial installable release for airtime, data, VAS and electricity. See [verification](docs/verification.md) for tested combinations and limits, and the [roadmap](docs/roadmap.md) for further work.
 
 ## Plugin questions and contributions
 

@@ -13,7 +13,7 @@ REQUIRED = (
     "CHANGELOG.md", "docs/product-specification.md", "docs/architecture.md",
     "docs/api-contract.md", "docs/order-lifecycle.md", "docs/merchant-guide.md",
     "docs/security-and-privacy.md", "docs/testing.md", "docs/releases.md",
-    "docs/roadmap.md", "docs/sources.md",
+    "docs/roadmap.md", "docs/sources.md", "docs/verification.md", "readme.txt",
 )
 LINK = re.compile(r"!?\[[^\]\n]*\]\((<[^>\n]+>|[^\s)]+)(?:\s+\"[^\"]*\")?\)")
 

@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for contributing to SIMcloud for WooCommerce. The project is currently in the planning stage. Documentation corrections and focused design feedback are welcome; there is no installable plugin to test yet.
+Thank you for contributing to SIMcloud for WooCommerce. The project has an initial installable four-service release. Focused bug reports, tests, documentation improvements and scoped design feedback are welcome.
 
 ## Start with the scope
 
@@ -16,16 +16,19 @@ Read the [product specification](docs/product-specification.md), [architecture](
 - Make logs useful without exposing credentials, complete phone numbers, raw provider bodies, or payment details.
 - Add meaningful tests for changed behaviour. Do not claim compatibility or provider delivery without evidence.
 
-## Documentation workflow available now
+## Development workflow
 
 ```sh
 python3 scripts/check_docs.py
+bash scripts/setup-tests.sh
+bash scripts/test.sh
+python3 scripts/package.py
 git diff --check
 ```
 
 Use Python 3.10 or newer. Describe future behaviour as planned until implemented. Every new feature needs matching merchant instructions, API notes where applicable, failure/recovery behaviour, and tests. Do not commit placeholder screenshots or unsupported compatibility claims.
 
-The [testing plan](docs/testing.md) defines the future application checks. Setup instructions and executable test commands must be added alongside the first code implementation; they are not available yet.
+The [testing plan](docs/testing.md) defines the future application checks. Follow its isolated database instructions. Never use a production database or live API credentials in ordinary tests.
 
 ## Pull request checklist
 
