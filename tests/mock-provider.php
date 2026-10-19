@@ -94,6 +94,8 @@ add_filter('woocommerce_payment_gateways', function ($gateways) {
                 $this->enabled = 'yes';
                 $this->title = 'Synthetic payment (no money)';
                 $this->method_title = $this->title;
+                $this->description = 'Synthetic test payment; no money moves.';
+                $this->method_description = $this->description;
                 $this->has_fields = false;
             }
             public function process_payment($order_id) {

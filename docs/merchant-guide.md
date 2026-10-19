@@ -18,6 +18,8 @@ Use **Check connection / balance** after saving. It performs a GET, displays the
 
 ## Catalogue and products
 
+![Synthetic merchant settings](images/merchant-settings.png)
+
 Use **Refresh catalogues** to load current data and VAS products. Cached results expire after 15 minutes; validation refreshes expired data through the API. The settings tables show product IDs, descriptions and available provider amounts.
 
 Create a **simple product** and open **Product data → General**:

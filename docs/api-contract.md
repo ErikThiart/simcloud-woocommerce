@@ -21,6 +21,11 @@ The token is obtained through the merchant's SIMcloud account under **API → Ge
 | Airtime status | `GET /api/airtime.php` | `request_id` or `orderno` |
 | Data submission | `POST /api/data.php` | `msisdn`, `network`, `amount`, `reference` |
 | Data status | `GET /api/data.php` | `request_id` or `orderno` |
+| VAS catalogue / status | `GET /api/vas.php` | No identifier for catalogue; `order_id` for status |
+| VAS submission | `POST /api/vas.php` | `product_id`, `amount`, `reference` |
+| Electricity meter support | `GET /api/electricity.php` | `meter_number` |
+| Electricity submission | `POST /api/electricity.php` | `meter_number`, `amount`, `client_reference`, `recipient`, `send_sms: false` |
+| Electricity status | `GET /api/electricity.php` | `order_id` |
 
 Keep catalogue and status requests distinct: bare data GET without an order identifier returns the catalogue, not the status of a previous purchase.
 

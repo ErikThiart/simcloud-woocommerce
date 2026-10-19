@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        This project currently contains planning documents, not an installable plugin.
+        Include the release version or commit and the affected prepaid service.
         Never include tokens, real recipient numbers, payment details, or unredacted logs.
         Report vulnerabilities privately through the repository Security page.
   - type: textarea

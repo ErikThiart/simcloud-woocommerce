@@ -31,7 +31,12 @@ wp_test config set SIMCLOUD_WC_TEST_RUN true --raw
 wp_test config set WP_DEBUG true --raw
 wp_test config set WP_DEBUG_LOG true --raw
 wp_test config set WP_DEBUG_DISPLAY false --raw
-wp_test plugin install woocommerce --version="$WC_VERSION" --activate --force
+if ! wp_test plugin is-installed woocommerce; then
+    wp_test plugin install woocommerce --version="$WC_VERSION" --activate
+elif [ "$(wp_test plugin get woocommerce --field=version)" != "$WC_VERSION" ]; then
+    echo 'Use a fresh WP_TEST_ROOT/database when changing WooCommerce versions.'
+    exit 1
+fi
 if [ ! -e "$TEST_ROOT/wordpress/wp-content/plugins/simcloud-woocommerce" ]; then
     ln -s "$ROOT" "$TEST_ROOT/wordpress/wp-content/plugins/simcloud-woocommerce"
 fi
@@ -40,6 +45,14 @@ if [ ! -e "$TEST_ROOT/wordpress/wp-content/mu-plugins/simcloud-test.php" ]; then
     ln -s "$ROOT/tests/mock-provider.php" "$TEST_ROOT/wordpress/wp-content/mu-plugins/simcloud-test.php"
 fi
 wp_test plugin activate simcloud-woocommerce
-wp_test option update woocommerce_custom_orders_table_enabled "${HPOS:-yes}"
+CURRENT_HPOS="$(wp_test option get woocommerce_custom_orders_table_enabled 2>/dev/null || true)"
+if [ "$CURRENT_HPOS" != "${HPOS:-yes}" ]; then
+    ORDER_COUNT="$(wp_test eval 'echo count(wc_get_orders(["limit" => 1, "return" => "ids"]));')"
+    if [ "$ORDER_COUNT" != '0' ]; then
+        echo 'Use a fresh WP_TEST_ROOT/database when changing order storage with existing orders.'
+        exit 1
+    fi
+    wp_test option update woocommerce_custom_orders_table_enabled "${HPOS:-yes}"
+fi
 wp_test rewrite structure '/%postname%/'
 echo "Isolated test installation ready at $TEST_ROOT/wordpress"

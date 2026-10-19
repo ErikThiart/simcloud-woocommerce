@@ -6,6 +6,7 @@
 python3 scripts/check_docs.py
 bash scripts/test.sh
 python3 scripts/package.py
+bash scripts/test-package.sh
 ```
 
 Tests require the isolated setup described in [testing](testing.md). The builder emits `dist/simcloud-woocommerce-0.1.0.zip` and a SHA-256 file. Its explicit allowlist includes the bootstrap, uninstall file, includes, assets/translations, WordPress readme and license. Tests, fixtures, repository metadata, credentials, development scripts, logs and private operational files are excluded.
